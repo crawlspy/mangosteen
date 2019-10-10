@@ -10,6 +10,8 @@ const unsplash = require('./unsplash')
 const wallhaven = require('./wallhaven')
 const nasa = require('./nasa')
 const themoviedb = require('./themoviedb')
+const bing = require('./bing')
+const qh360 = require('./qh360')
 
 const cancelFn = {
     pexels: pexels.cancelImage,
@@ -18,7 +20,9 @@ const cancelFn = {
     unsplash: unsplash.cancelImage,
     wallhaven: unsplash.cancelImage,
     nasa: nasa.cancelImage,
-    themoviedb: themoviedb.cancelImage
+    themoviedb: themoviedb.cancelImage,
+    bing: bing.cancelImage,
+    qh360: qh360.cancelImage
 }
 
 const getUrl = {
@@ -28,7 +32,9 @@ const getUrl = {
     unsplash: unsplash.getImage,
     wallhaven: wallhaven.getImage,
     nasa: nasa.getImage,
-    themoviedb: themoviedb.getImage
+    themoviedb: themoviedb.getImage,
+    bing: bing.getImage,
+    qh360: qh360.getImage
 }
 
 export const getUrls = function (data) {

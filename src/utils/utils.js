@@ -43,6 +43,16 @@ export const imageSourceType = [{
     search: true,
 },
 {
+    name: '360',
+    value: 'qh360',
+    search: true,
+},
+{
+    name: 'bing',
+    value: 'bing',
+    search: false,
+},
+{
     name: '500px',
     value: '500px',
     search: true
