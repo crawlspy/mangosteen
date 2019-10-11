@@ -2,6 +2,7 @@
  * bing网站 https://www.pexels.com
  */
 import fetch from 'electron-fetch'
+import cheerio from 'cheerio'
 
 let source = null
 
@@ -12,27 +13,29 @@ export const getImage = function (data) {
             resolve([])
             return
         }
-        if (data.page > 0) {
-            resolve([])
-            return
-        }
-        const request = fetch('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8')
+        const request = fetch(`https://bing.ioliu.cn/?p=${data.page + 1}`)
         source = request
-            .then(res => res.json())
-            .then((json) => {
+            .then(res => res.text())
+            .then((html) => {
+                const $ = cheerio.load(html)
+                const images = $('.progressive__img')
                 let urls = []
-                urls = json.images.map((item) => {
-                    return {
-                        url: `https://www.bing.com${item.url}`,
-                        downloadUrl: `https://www.bing.com${item.url}`,
-                        width: '1920',
-                        height: '1080'
-                    }
-                })
-                resolve(urls)
+                if (images.length) {
+                    urls = [].slice.call(images, 0).map((item) => {
+                        return {
+                            url: item.attribs['data-progressive'],
+                            downloadUrl: item.attribs['data-progressive'],
+                            width: '1920',
+                            height: '1080'
+                        }
+                    })
+                    resolve(urls)
+                } else {
+                    resolve([])
+                }
             }).catch((err) => {
                 source = null
-                console.log('------------请求失败bing:')
+                console.log('------------请求失败bing:', err)
                 reject()
             })
     })
