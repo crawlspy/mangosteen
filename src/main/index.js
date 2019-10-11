@@ -89,6 +89,9 @@ function appOpenInit(){
  */
 function createWindow() {
     mainWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true
+        },
         height: 600,
         width: 300,
         frame: false,
@@ -107,8 +110,8 @@ function createWindow() {
         titleBarStyle: 'customButtonsOnHover'
     })
 
+    // mainWindow.webContents.openDevTools()
     // mainWindow.openDevTools()
-
     mainWindow.loadURL(baseUrl)
 
     mainWindow.on('blur', () => {
@@ -220,10 +223,10 @@ function createAppTray() {
     })
 
     mainWindow.on('show', () => {
-        appTray.setHighlightMode('never')
+        // appTray.setHighlightMode('never')
     })
     mainWindow.on('hide', () => {
-        appTray.setHighlightMode('selection')
+        // appTray.setHighlightMode('selection')
     })
 }
 

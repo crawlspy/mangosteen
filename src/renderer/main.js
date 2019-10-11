@@ -12,11 +12,11 @@ import './assets/css/base.css'
 import vueModules from './components'
 import vueFn from './assets/js/vue-fn'
 
-Vue.use(require('vue-electron'))
+Vue.use(vueFn)
 
 Vue.use(ElementUI)
 Vue.use(vueModules)
-Vue.use(vueFn)
+
 
 const mainVue = new Vue({
     components: { App },

@@ -14,7 +14,7 @@ export const deepClone = function (obj, cache = []) {
     if (obj === null || typeof obj !== 'object') {
         return obj
     }
-    const hit = cache.find(c => c.original === obj)
+    const hit = cache.find((c) => c.original === obj)
     if (hit) {
         return hit.copy
     }

@@ -1,5 +1,4 @@
 
-
 import userConfig from '../../.user-config.js'
 
 const axios = require('axios')
@@ -17,7 +16,7 @@ const instance = axios.create({
 /**
  * 第一次的时候注册
  */
-export const postRegister = data => new Promise((resolve, reject) => {
+export const postRegister = (data) => new Promise((resolve, reject) => {
     instance({
         url: '/register',
         method: 'post',
@@ -37,12 +36,12 @@ export const postRegister = data => new Promise((resolve, reject) => {
 /**
  * 统计用户的使用情况
  */
-export const apiStatisticActive = data => instance.post('/active', data)
+export const apiStatisticActive = (data) => instance.post('/active', data)
 
 /**
  * 百度翻译接口，将用户搜索的中文转成英文
  */
-export const apiTranslation = val => new Promise((resolve, reject) => {
+export const apiTranslation = (val) => new Promise((resolve, reject) => {
     if (val === ''){
         resolve('')
         return

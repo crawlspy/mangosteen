@@ -23,7 +23,7 @@ export const axiosGet = function (url, option) {
                 reject()
             }
         }).catch((error) => {
-            console.log('axiosGet请求出错')
+            console.log('axiosGet请求出错', error)
             reject(error)
         })
     })

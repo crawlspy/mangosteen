@@ -46,8 +46,13 @@ const removeStore = (name) => {
     return true
 }
 
+const cleanStore = () => {
+    window.localStorage.clear()
+}
+
 export {
     setStore,
     getStore,
-    removeStore
+    removeStore,
+    cleanStore
 }

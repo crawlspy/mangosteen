@@ -38,9 +38,10 @@ const getUrl = {
 }
 
 export const getUrls = function (data) {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         type = data.imageSource
-        const currentImageSource = imageSourceType.find(i => i.value === type)
+        const currentImageSource = imageSourceType.find((i) => i.value === type)
         data.searchKey = currentImageSource.isSupportChinaSearch ? data.searchKey : await apiTranslation(data.searchKey)
         getUrl[type](data).then((urls) => {
             resolve(urls)

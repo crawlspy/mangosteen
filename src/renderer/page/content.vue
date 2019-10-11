@@ -160,8 +160,8 @@ export default {
     },
 
     computed: mapState({
-        config: state => state.main.config,
-        currentImageSource() { return imageSourceType.find(item => item.value === this.imageSource) }
+        config: (state) => state.main.config,
+        currentImageSource() { return imageSourceType.find((item) => item.value === this.imageSource) }
     }),
 
     mounted() {
@@ -568,7 +568,7 @@ export default {
         },
 
         searchKeyListDelete(tag){
-            this.searchKeyList = this.searchKeyList.filter(i => i !== tag)
+            this.searchKeyList = this.searchKeyList.filter((i) => i !== tag)
             this.domContentMainMatch()
         },
 

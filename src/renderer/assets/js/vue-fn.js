@@ -6,14 +6,17 @@
  */
 
 import axios from 'axios'
+import electron, { ipcRenderer } from 'electron'
 
-const { ipcRenderer } = require('electron')
 const localStorage = require('./local-storage')
 const { deepClone, typeOf } = require('./common-fn')
 
 export default {
     version: '0.0.1',
     install(Vue) {
+        // try fix
+        // localStorage.cleanStore()
+        Vue.prototype.$electron = electron
         Vue.prototype.$deepClone = deepClone
         Vue.prototype.$localStorage = localStorage
         Vue.prototype.$typeOf = typeOf
