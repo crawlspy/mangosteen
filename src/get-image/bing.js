@@ -7,7 +7,6 @@ import cheerio from 'cheerio'
 let source = null
 
 export const getImage = function (data) {
-    console.log(data)
     return new Promise((resolve, reject) => {
         if (!data) {
             resolve([])
