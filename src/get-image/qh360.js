@@ -1,65 +1,73 @@
 /** *
  * bing网站 https://www.360.com
  */
+import fetch from 'electron-fetch'
+import queryString from 'query-string'
 
-const axios = require('axios')
-const cheerio = require('cheerio')
 const { imageMinWidth, browserHeader } = require('../utils/config')
-
-const { CancelToken } = axios
 
 let source = null
 
-// 下一页的时间参数
-let nextPageSeed = ''
+export const getCategories = function () {
+    return new Promise((resolve, reject) => {
+        const url = 'http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2'
+        const request = fetch(url)
+        source = request
+            .then((res) => res.json())
+            .then((json) => {
+                const cates = json.data.map((item) => ({ id: item.id, name: item.name }))
+                resolve(cates)
+            })
+            .catch((err) => {
+                reject()
+            })
+    })
+}
+
+
 export const getImage = function (data) {
     return new Promise((resolve, reject) => {
         if (!data) {
             resolve([])
+            return
         }
-        if (data.page === 0){
-            nextPageSeed = ''
+        const baseUrl = 'http://wallpaper.apc.360.cn/index.php'
+
+        // http://bz.hellohao.cn/GetWallpapers?start=0&count=10&category=36
+        // http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=36&start=0&count=10&from=360chrome
+
+        const params = {
+            a: 'getAppsByCategory',
+            from: '360chrome',
+            c: 'WallPaper',
+            // page: data.page + 1,
+            cid: data.category || 36,
+            count: 10,
+            start: data.page * 10
         }
-        let baseUrl = 'https://www.pexels.com'
-        if (data.searchKey) {
-            baseUrl = `https://www.pexels.com/search/${data.searchKey}`
-        }
-        source = CancelToken.source()
-        const url = baseUrl + nextPageSeed
-        axios.get(url, {
-            cancelToken: source.token,
-            headers: browserHeader,
-        }).then((result) => {
-            source = null
-            const urls = []
-            const $ = cheerio.load(result.data)
-            if ($('.next_page').length){
-                nextPageSeed = $('.next_page')[0].attribs.href
-            }
-            const imageItems = $('.photo-item__img')
-            // 是否存在
-            if (nextPageSeed.length){
-                const imageItemsLength = imageItems.length
-                for (let i = 0; i < imageItemsLength; i++){
-                    const { attribs } = imageItems[i]
-                    const obj = {
-                        width: attribs['data-image-width'],
-                        height: attribs['data-image-height'],
-                        url: attribs['data-large-src'],
-                        downloadUrl: attribs['data-big-src'].split('?')[0]
-                    }
-                    // 剔除重复的地址
-                    if (parseInt(obj.width, 10) > imageMinWidth) {
-                        urls.push(obj)
-                    }
+        const str = queryString.stringify(params)
+
+        const request = fetch(`${baseUrl}?${str}`)
+        source = request
+            .then((res) => res.json())
+            .then((json) => {
+                // eslint-disable-next-line eqeqeq
+                if (json.errno == 0) {
+                    const urls = json.data.map((item) => ({
+                        url: item.url_thumb,
+                        downloadUrl: item.url,
+                        width: item.resolution.split('x')[0],
+                        height: item.resolution.split('x')[1]
+                    }))
+                    resolve(urls)
+                } else {
+                    resolve([])
                 }
-            }
-            resolve(urls)
-        }).catch((err) => {
-            source = null
-            console.log('------------请求失败pexels:', url)
-            reject()
-        })
+            }).catch((err) => {
+                source = null
+                console.log('------------请求失败360:', err)
+                reject()
+            })
     })
 }
 

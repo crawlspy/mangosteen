@@ -8,7 +8,7 @@ const log = require('electron-log')
 const { setOnCurrentSpace } = require('../wallpaper/outwallpaper')
 const { openAutoStart, openDisStart } = require('../file/auto-open')
 const { downloadPic, cancelDownloadPic } = require('../file/file')
-const { getUrls, cancelUrls } = require('../get-image/search')
+const { getUrls, getCategories, cancelUrls } = require('../get-image/search')
 const { newEmail } = require('./mail')
 
 const { isDev, isMac, isWin, baseUrl } = require('../utils/utils')
@@ -303,10 +303,25 @@ function ipcMainInit() {
         })
     })
 
+
     ipcMain.on('getImageUrls', (event, data) => {
         getUrls(data).then((result) => {
             mainWindow.webContents.send('datainfo', {
                 type: 'urls',
+                data: result
+            })
+        }).catch(() => {
+            mainWindow.webContents.send('datainfo', {
+                type: 'urlsError',
+                data: ''
+            })
+        })
+    })
+
+    ipcMain.on('getCategories', (event, data) => {
+        getCategories(data).then((result) => {
+            mainWindow.webContents.send('datainfo', {
+                type: 'category',
                 data: result
             })
         }).catch(() => {

@@ -44,8 +44,9 @@ export const imageSourceType = [{
 },
 {
     name: '360',
-    value: 'qh360',
-    search: true,
+    value: '360',
+    search: false,
+    category: true
 },
 {
     name: 'bing',

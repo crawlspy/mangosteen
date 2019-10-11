@@ -49,6 +49,16 @@
                 </div>
             </div>
 
+            <div class="header-tag category-tag" v-if="currentImageSource.category && categoryList.length>0" >
+                <div :class="['header-tag-item',tag.id === category ? 'active' : '']"   
+                    v-for="(tag) in categoryList" 
+                    :key="tag.id"
+                    @click="categoryItemClick(tag)"
+                >
+                    <div class="header-tag-item-text">{{tag.name}}</div>
+                </div>
+            </div>
+
             <sw-progress v-if="progressValue>0" :value="progressValue" :color="currentImageBacColor"></sw-progress>
         </div>
 
@@ -151,6 +161,8 @@ export default {
             searchKeyFocus: false, // 标记当前搜索框是否正在焦点中
             refreshBtnIng: false, // 是否正在刷新
             images: [], // 图片列表
+            categoryList: [], // 类型列表
+            category: 0, // 当前分类
             osType, // 系统类型
             imageSource: 'pexels', // 图片来源
             currentImageBacColor: '#ddd', // 进度条的颜色
@@ -174,6 +186,9 @@ export default {
         this.cleartLocalStorage()
         if (this.imageSource === 'paper'){
             this.paperInit()
+        }
+        if (this.currentImageSource.category) {
+            this.getCategories()
         }
         this.getData()
         this.eventInit()
@@ -267,6 +282,10 @@ export default {
                         this.images = []
                     }
                     this.urlsDeal(data)
+                }
+                // 分类列表
+                else if (type === 'category') {
+                    this.categoryList = data
                 }
                 else if (type === 'urlsError'){
                     this.refreshBtnIng = false
@@ -489,10 +508,16 @@ export default {
         },
 
         searchItemClick(tag){
-            console.log(tag)
-            
+            // console.log(tag)
             this.searchKey = tag
             this.searchKeyFn()
+        },
+        categoryItemClick(cate) {
+            this.destroyAll()
+            this.images = []
+            this.category = cate.id
+            this.page = 0
+            this.getData()
         },
 
         /**
@@ -550,15 +575,26 @@ export default {
          * 获取数据接口
          * @function getData
          */
-        async getData() {
+        async getData(data = {}) {
             this.getDataFlag = true
             this.infoShow = INFOSHOW.loading
             const obj = {
                 searchKey: this.searchKey,
                 page: this.page,
-                imageSource: this.imageSource
+                imageSource: this.imageSource,
+                category: this.category,
+                ...data
             }
             this.$ipcRenderer.send('getImageUrls', obj)
+        },
+        /**
+         * 获取category
+         */
+        async getCategories() {
+            const obj = {
+                imageSource: this.imageSource
+            }
+            this.$ipcRenderer.send('getCategories', obj)
         },
 
         handleMouseLeave(){
@@ -594,6 +630,10 @@ export default {
         imageSource(val, oldVal) {
             if (val === 'paper') {
                 this.paperInit()
+            }
+            // eslint-disable-next-line eqeqeq
+            if (val == 360) {
+                this.getCategories()
             }
         },
     }

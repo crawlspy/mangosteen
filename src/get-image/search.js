@@ -22,7 +22,7 @@ const cancelFn = {
     nasa: nasa.cancelImage,
     themoviedb: themoviedb.cancelImage,
     bing: bing.cancelImage,
-    qh360: qh360.cancelImage
+    360: qh360.cancelImage
 }
 
 const getUrl = {
@@ -34,7 +34,35 @@ const getUrl = {
     nasa: nasa.getImage,
     themoviedb: themoviedb.getImage,
     bing: bing.getImage,
-    qh360: qh360.getImage
+    360: qh360.getImage
+}
+
+const getCategory = {
+    // pexels: pexels.getImage,
+    // '500px': fiveHundred.getImage,
+    // paper: paper.getImage,
+    // unsplash: unsplash.getImage,
+    // wallhaven: wallhaven.getImage,
+    // nasa: nasa.getImage,
+    // themoviedb: themoviedb.getImage,
+    // bing: bing.getImage,
+    360: qh360.getCategories
+}
+
+export const getCategories = function (data) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+        const s = data.imageSource
+        console.log(data)
+        if (getCategory[s]) {
+            getCategory[s](data).then((urls) => {
+                resolve(urls)
+            }).catch((error) => {
+                reject(error)
+            }).finally(() => {
+            })
+        }
+    })
 }
 
 export const getUrls = function (data) {
