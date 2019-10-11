@@ -57,11 +57,11 @@ export const imageSourceType = [{
     value: '500px',
     search: true
 },
-{
-    name: 'paper',
-    value: 'paper',
-    search: false
-},
+// {
+//     name: 'paper',
+//     value: 'paper',
+//     search: false
+// },
 {
     name: 'unsplash',
     value: 'unsplash',
@@ -76,11 +76,12 @@ export const imageSourceType = [{
     name: 'NASA',
     value: 'nasa',
     search: false,
-},
-{
-    name: '电影',
-    value: 'themoviedb',
-    search: true,
-    isSupportChinaSearch: true // 是否支持中文搜索
 }
+// ,
+// {
+//     name: '电影',
+//     value: 'themoviedb',
+//     search: true,
+//     isSupportChinaSearch: true // 是否支持中文搜索
+// }
 ]
