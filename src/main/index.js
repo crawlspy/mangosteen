@@ -95,7 +95,8 @@ function createWindow() {
         height: 600,
         width: 300,
         frame: false,
-        transparent: true,
+        backgroundColor: '#00000000',
+        transparent: !isWin(), // windows 10 失效需要设置 backgroundColor
         show: false,
         alwaysOnTop: true,
         resizable: false, // 禁止变化尺寸
