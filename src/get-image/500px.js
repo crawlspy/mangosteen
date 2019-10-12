@@ -17,11 +17,44 @@ const { imageMinWidth } = require('../utils/config')
 
 let source = null
 
-/**
- * 先获取页面取得cookie等信息
- * @param {*} data 
- */
+const categories = [
+    { id: 'all', name: '全部类别' },
+    { id: 'Night', name: 'Night' },
+    { id: 'Film', name: '电影' },
+    { id: 'Transportation', name: '交通' },
+    { id: 'Food', name: '美食' },
+    { id: 'People', name: '人物' },
+    { id: 'Nature', name: '自然' },
+    { id: 'Animals', name: '动物' },
+    { id: 'Aerial', name: '航空' },
+    { id: 'Celebrities', name: '名人' },
+    { id: 'Fine+Art', name: '艺术' },
+    { id: 'Commercial', name: '商业' },
+    { id: 'Street', name: '街景' },
+    { id: 'City+&+Architecture', name: '城市与建筑' },
+    { id: 'Performing+Arts', name: '表演艺术' },
+    { id: 'Wedding', name: '婚礼' },
+    { id: 'Sport', name: '运动' },
+    { id: 'Family', name: '家庭' },
+    { id: 'Urban+Exploration', name: '都市探奇' },
+    { id: 'Macro', name: '微距' },
+    { id: 'Still+Life', name: '静物' },
+    { id: 'Abstract', name: '抽象' },
+    { id: 'Concert', name: '音乐会' },
+    { id: 'Journalism', name: '新闻' },
+    { id: 'Landscapes', name: '风景' },
+    { id: 'Travel', name: '旅行' },
+    { id: 'Black+and+White', name: '黑白' },
+    { id: 'Fashion', name: '时尚' },
+    { id: 'Uncategorized', name: '未分类' },
+    { id: 'Underwater', name: '水下' }
+]
 
+export const getCategories = function () {
+    return new Promise((resolve, reject) => {
+        resolve(categories)
+    })
+}
 
 export const getImage = async function (data) {
     // eslint-disable-next-line no-async-promise-executor
@@ -31,8 +64,8 @@ export const getImage = async function (data) {
         }
         let baseUrl = 'https://api.500px.com/v1/photos'
         const params = {
-            'image_size[]': 2048,
-            // image_size: [100, 200, 400, 600, 2048],
+            // 'image_size[]': 2048,
+            'image_size[]': [100, 200, 400, 600, 2048],
             page: data.page + 1,
             rpp: 50, // 单页条数
             formats: 'jpeg,lytro',
@@ -40,7 +73,10 @@ export const getImage = async function (data) {
             exclude: '',
             personalized_categories: ''
         }
-        
+        if (data.category && !data.searchKey) {
+            params.only = data.category
+        }
+
 
         if (data.searchKey) {
             // baseUrl = 'https://api.500px.com/v1/photos'
@@ -60,7 +96,6 @@ export const getImage = async function (data) {
         }
 
         const str = queryString.stringify(params)
-
         const request = fetch(`${baseUrl}?${str}`)
         source = request
             .then((res) => res.json())
@@ -88,7 +123,7 @@ export const getImage = async function (data) {
                     }
                     // obj.height = parseInt(maxSize / obj.width * obj.height, 10)
                     // obj.width = maxSize
-                    if (parseInt(obj.width, 10) > imageMinWidth){
+                    if (parseInt(obj.width, 10) > imageMinWidth) {
                         urls.push(obj)
                     }
                 })
