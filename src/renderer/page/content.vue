@@ -31,11 +31,13 @@
                 <el-input
                     class="header-search-input"
                     v-model="searchKey"
-                    placeholder="请输入关键词"
+                    placeholder="请输入关键词，键入回车搜索"
                     size="small"
+                    @keyup.enter.native="searchKeyFn"
                     @focus="searchKeyFocus=true"
-                    @blur="searchKeyFocus=false"></el-input>
-                <i class="iconfont icon-sousuo" @click.stop="searchKeyFn"></i>
+                    @blur="searchKeyFocus=false" clearable>
+                    <i class="el-input__icon el-icon-search" slot="suffix" @click.stop="searchKeyFn"></i>
+                </el-input>
             </div>
 
             <div class="header-tag" v-if="currentImageSource.search&&searchKeyList.length>0">
@@ -716,15 +718,15 @@ export default {
             align-items: center;
             position: relative;
 
-            .header-search-input {
-                width: 100%;
-                flex: none;
-            }
+            // .header-search-input {
+            //     width: 100%;
+            //     flex: none;
+            // }
 
-            .iconfont {
-                position: absolute;
-                right: 5px;
-            }
+            // .iconfont {
+            //     position: absolute;
+            //     right: 5px;
+            // }
         }
         .header-tag{
             display: flex;
