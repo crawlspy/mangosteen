@@ -56,7 +56,9 @@ export const imageSourceType = [{
 {
     name: '500px',
     value: '500px',
-    search: true
+    search: true,
+    isSupportChinaSearch: true,
+    category: true
 },
 // {
 //     name: 'paper',
