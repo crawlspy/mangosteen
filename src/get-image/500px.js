@@ -147,6 +147,6 @@ export const getImage = async function (data) {
 
 export const cancelImage = function () {
     if (source) {
-        source.cancel()
+        // source.cancel()
     }
 }
