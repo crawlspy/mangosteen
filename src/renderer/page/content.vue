@@ -634,7 +634,7 @@ export default {
                 this.paperInit()
             }
             // eslint-disable-next-line eqeqeq
-            if (val == 360) {
+            if (this.currentImageSource.category) {
                 this.getCategories()
             }
         },
