@@ -153,6 +153,7 @@ Works on macOS 10.12+, and Windows 10, Windows7.
 - 500px 分类功能
 - 默认使用google翻译引擎
 - 优化搜索框
+- 修复一些bug
 
 
 
