@@ -39,7 +39,7 @@ const getUrl = {
 
 const getCategory = {
     // pexels: pexels.getImage,
-    // '500px': fiveHundred.getImage,
+    '500px': fiveHundred.getCategories,
     // paper: paper.getImage,
     // unsplash: unsplash.getImage,
     // wallhaven: wallhaven.getImage,
