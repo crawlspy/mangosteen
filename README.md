@@ -152,6 +152,8 @@ Works on macOS 10.12+, and Windows 10, Windows7.
 > 2.3.2
 - 500px 分类功能
 - 默认使用google翻译引擎
+- 优化搜索框
+
 
 
 ## 用户统计
