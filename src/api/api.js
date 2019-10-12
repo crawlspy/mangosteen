@@ -1,9 +1,10 @@
 
+import translate from 'google-translate-open-api'
 import userConfig from '../../.user-config.js'
 
 const axios = require('axios')
 
-const { baiDuTranslationAppId, baiDuTranslationAppKey } = userConfig
+const { baiDuTranslationAppId, baiDuTranslationAppKey, googletrans } = userConfig
 const { MD5: swMd5 } = require('./baidu-md5')
 const { apiBaseUrl } = require('../utils/config')
 
@@ -38,10 +39,41 @@ export const postRegister = (data) => new Promise((resolve, reject) => {
  */
 export const apiStatisticActive = (data) => instance.post('/active', data)
 
+
+/**
+ * Google translate
+ * @param {*} val 
+ */
+
+export const apiTranslation = (val) => {
+    if (googletrans) {
+        // eslint-disable-next-line no-async-promise-executor
+        return new Promise(async (resolve, reject) => {
+            if (val === ''){
+                resolve('')
+                return
+            }
+            // 如果包含数字就直接返回搜索值
+            // eslint-disable-next-line no-restricted-globals
+            if (!isNaN(Number(val))){
+                resolve(val)
+                return
+            }
+            const result = await translate(val, {
+                tld: 'cn', // google.cn
+                to: 'en',
+            })
+            const data = result.data[0]
+            resolve(data)
+        })
+    } 
+    return apiTranslation2(val)
+}
+
 /**
  * 百度翻译接口，将用户搜索的中文转成英文
  */
-export const apiTranslation = (val) => new Promise((resolve, reject) => {
+export const apiTranslation2 = (val) => new Promise((resolve, reject) => {
     if (val === ''){
         resolve('')
         return

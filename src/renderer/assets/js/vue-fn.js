@@ -14,7 +14,7 @@ const { deepClone, typeOf } = require('./common-fn')
 export default {
     version: '0.0.1',
     install(Vue) {
-        // try fix
+        // debugger error paper type, try fix
         // localStorage.cleanStore()
         Vue.prototype.$electron = electron
         Vue.prototype.$deepClone = deepClone

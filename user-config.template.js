@@ -6,6 +6,7 @@
 export default {
     emailUserName: '', // 电子邮箱账号
     emailPassword: '', // 电子邮箱的授权码
+    googletrans: true, // 默认使用google 翻译
     baiDuTranslationAppId: '', // 百度翻译的appID
     baiDuTranslationAppKey: '' // 百度翻译的appKey
 }
