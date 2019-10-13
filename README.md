@@ -36,11 +36,11 @@ Works on macOS 10.12+, and Windows 10, Windows7.
 
 #### 1.安装软件
 
-提供两个打包好的下载地址:
+下载地址:
 
-[Strawberry Wallpaper-mac](https://swallpaper.oss-cn-beijing.aliyuncs.com/Strawberry%20Wallpaper-mac.dmg) 
 
-[Strawberry Wallpaper-win](https://swallpaper.oss-cn-beijing.aliyuncs.com/Strawberry%20Wallpaper-win.exe)
+https://github.com/icai/Strawberry-Wallpaper/releases
+
 
 
 #### 2.软件介绍
