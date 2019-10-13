@@ -24,7 +24,7 @@ function resolve (dir) {
  */
 // let whiteListedModules = ['vue']
 
-let whiteListedModules = ['vue', 'vue-router', 'axios', 'vuex', 'vue-electron']
+let whiteListedModules = ['vue', 'vue-router', 'axios', 'vuex']
 
 let rendererConfig = {
   devtool: '#cheap-module-eval-source-map',
