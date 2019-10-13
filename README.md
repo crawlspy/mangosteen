@@ -6,7 +6,7 @@
 
 #### keywords
 
-bing Wallpaper, 500px Wallpager, 360 Wallpager, pexels Wallpager ...
+bing Wallpaper, 500px Wallpaper, 360 Wallpaper, pexels Wallpaper ...
 
 
 
