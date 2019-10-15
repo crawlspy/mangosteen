@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 
+import fetch from 'electron-fetch'
+import queryString from 'query-string'
 import userConfig from '../../.user-config'
 
 const { themoviedbAppKey } = userConfig
@@ -20,41 +22,41 @@ const BASEIMAGEURL = 'https://image.tmdb.org/t/p/w500'
 
 // const GETMOVEIMAGEURL='https://api.themoviedb.org/3/movie/${moveid}/images?api_key='
 
-
-const axios = require('axios')
 const { imageMinWidth } = require('../utils/config')
 
-const { CancelToken } = axios
+
 let source = null
-
-
-const { axiosGet } = require('../utils/axios')
 
 const getImages = function (movieId, type){
     return new Promise((resolve) => {
-        axiosGet({
-            url: `https://api.themoviedb.org/3/${type}/${movieId}/images`,
-            params: {
-                api_key: APIKEY
-            },
-        }).then((result) => {
-            const { backdrops } = result
-            const urls = []
-            backdrops.forEach((item) => {
-                const { width, height, file_path: filePath } = item
-                if (parseInt(width, 10) > imageMinWidth){
-                    urls.push({
-                        width,
-                        height,
-                        url: `${BASEIMAGEURL}${filePath}`,
-                        downloadUrl: `${BASEIMAGEDOWNURL}${filePath}`,
-                    })
-                }
+        const params = {
+            api_key: APIKEY
+        }
+
+        const baseUrl = `https://api.themoviedb.org/3/${type}/${movieId}/images`
+
+        const str = queryString.stringify(params)
+        const request = fetch(`${baseUrl}?${str}`)
+        request
+            .then((res) => res.json())
+            .then((result) => {
+                const { backdrops } = result
+                const urls = []
+                backdrops.forEach((item) => {
+                    const { width, height, file_path: filePath } = item
+                    if (parseInt(width, 10) > imageMinWidth){
+                        urls.push({
+                            width,
+                            height,
+                            url: `${BASEIMAGEURL}${filePath}`,
+                            downloadUrl: `${BASEIMAGEDOWNURL}${filePath}`,
+                        })
+                    }
+                })
+                resolve(urls)
+            }).catch((err) => {
+                resolve([])
             })
-            resolve(urls)
-        }).catch((err) => {
-            resolve([])
-        })
     })
 }
 
@@ -64,7 +66,7 @@ export const getImage = function (data) {
             resolve([])
             return
         }
-        source = CancelToken.source()
+
         let url = MOVELISTAPI
         let params = {
             ...MOVELISTPARAMS,
@@ -80,26 +82,31 @@ export const getImage = function (data) {
                 query: data.searchKey
             }
         }
-        axiosGet({ url, params, cancelToken: source.token }).then(async (result) => {
-            const { results } = result
-            let urls = []
-            await Promise.all(results.map(async (item) => {
-                const { id, media_type: mediaType = 'movie' } = item
-                const movieImages = await getImages(id, mediaType)
-                urls = [...movieImages, ...urls]
-                return Promise.resolve
-            }))
-            resolve(urls)
-        }).catch((error) => {
-            source = null
-            console.log('------------请求失败tmdb:', error)
-            reject()
-        })
+
+        const str = queryString.stringify(params)
+        const request = fetch(`${url}?${str}`)
+        request
+            .then((res) => res.json())
+            .then(async (result) => {
+                const { results } = result
+                let urls = []
+                await Promise.all(results.map(async (item) => {
+                    const { id, media_type: mediaType = 'movie' } = item
+                    const movieImages = await getImages(id, mediaType)
+                    urls = [...movieImages, ...urls]
+                    return Promise.resolve
+                }))
+                resolve(urls)
+            }).catch((error) => {
+                source = null
+                console.log('------------请求失败tmdb:', error)
+                reject()
+            })
     })
 }
 
 export const cancelImage = function () {
     if (source) {
-        source.cancel()
+        // source.cancel()
     }
 }

@@ -13,15 +13,14 @@
  * 
  */
 
+import fetch from 'electron-fetch'
+import queryString from 'query-string'
 
-const axios = require('axios')
+
 const cheerio = require('cheerio')
 const { imageMinWidth } = require('../utils/config')
 
-const { CancelToken } = axios
 let source = null
-
-const { axiosGet } = require('../utils/axios')
 
 export const getImage = function (data) {
     return new Promise((resolve, reject) => {
@@ -44,43 +43,42 @@ export const getImage = function (data) {
                 order: 'desc'
             }
         }
-        source = CancelToken.source()
-        axiosGet({
-            url: baseUrl,
-            params,
-            cancelToken: source.token
-        }).then((result) => {
-            source = null
-            const urls = []
-            const $ = cheerio.load(result)
-            
-            $('figure').each((index, node) => {
-                const wallpaperId = node.attribs['data-wallpaper-id']
-                const url = $(node).find('img').attr('data-src')
-                const isPng = Boolean($(node).find('.png').length)
-                const [width, height] = $(node).find('.wall-res').html().split('x')
-                const downloadUrl = `https://w.wallhaven.cc/full/${wallpaperId.slice(0, 2)}/wallhaven-${wallpaperId}.${isPng ? 'png' : 'jpg'}`
-                const obj = {
-                    width: width.trim(),
-                    height: height.trim(),
-                    url,
-                    downloadUrl,
-                }
-                if (parseInt(obj.width, 10) > imageMinWidth){
-                    urls.push(obj)
-                }
+        const str = queryString.stringify(params)
+        const request = fetch(`${baseUrl}?${str}`)
+
+        request
+            .then((res) => res.json())
+            .then((result) => {
+                source = null
+                const urls = []
+                const $ = cheerio.load(result)
+                $('figure').each((index, node) => {
+                    const wallpaperId = node.attribs['data-wallpaper-id']
+                    const url = $(node).find('img').attr('data-src')
+                    const isPng = Boolean($(node).find('.png').length)
+                    const [width, height] = $(node).find('.wall-res').html().split('x')
+                    const downloadUrl = `https://w.wallhaven.cc/full/${wallpaperId.slice(0, 2)}/wallhaven-${wallpaperId}.${isPng ? 'png' : 'jpg'}`
+                    const obj = {
+                        width: width.trim(),
+                        height: height.trim(),
+                        url,
+                        downloadUrl,
+                    }
+                    if (parseInt(obj.width, 10) > imageMinWidth){
+                        urls.push(obj)
+                    }
+                })
+                resolve(urls)
+            }).catch(() => {
+                source = null
+                console.log('------------请求失败wallhaven:', baseUrl)
+                reject()
             })
-            resolve(urls)
-        }).catch(() => {
-            source = null
-            console.log('------------请求失败wallhaven:', baseUrl)
-            reject()
-        })
     })
 }
 
 export const cancelImage = function () {
     if (source) {
-        source.cancel()
+        // source.cancel()
     }
 }

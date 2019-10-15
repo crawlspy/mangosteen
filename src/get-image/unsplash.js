@@ -19,14 +19,15 @@
  * 
  */
 
+import fetch from 'electron-fetch'
+import queryString from 'query-string'
 
-const axios = require('axios')
+
 const { imageMinWidth } = require('../utils/config')
 
-const { CancelToken } = axios
+
 let source = null
 
-const { axiosGet } = require('../utils/axios')
 
 export const getImage = function (data) {
     return new Promise((resolve, reject) => {
@@ -51,40 +52,41 @@ export const getImage = function (data) {
                 page: data.page,
             }
         }
-        source = CancelToken.source()
-        axiosGet({
-            url: baseUrl,
-            params,
-            cancelToken: source.token
-        }).then((result) => {
-            source = null
-            const urls = []
-            let newRes = result
-            if (searchFalg){
-                newRes = result.results
-            }
-            newRes.forEach((item) => {
-                const obj = {
-                    width: item.width,
-                    height: item.height,
-                    url: item.urls.small,
-                    downloadUrl: item.urls.full,
+
+        const str = queryString.stringify(params)
+        const request = fetch(`${baseUrl}?${str}`)
+
+        request
+            .then((res) => res.json())
+            .then((result) => {
+                source = null
+                const urls = []
+                let newRes = result
+                if (searchFalg){
+                    newRes = result.results
                 }
-                if (parseInt(obj.width, 10) > imageMinWidth){
-                    urls.push(obj)
-                }
+                newRes.forEach((item) => {
+                    const obj = {
+                        width: item.width,
+                        height: item.height,
+                        url: item.urls.small,
+                        downloadUrl: item.urls.full,
+                    }
+                    if (parseInt(obj.width, 10) > imageMinWidth){
+                        urls.push(obj)
+                    }
+                })
+                resolve(urls)
+            }).catch(() => {
+                source = null
+                console.log('------------请求失败unsplash:', baseUrl)
+                reject()
             })
-            resolve(urls)
-        }).catch(() => {
-            source = null
-            console.log('------------请求失败unsplash:', baseUrl)
-            reject()
-        })
     })
 }
 
 export const cancelImage = function () {
     if (source) {
-        source.cancel()
+        // source.cancel()
     }
 }
