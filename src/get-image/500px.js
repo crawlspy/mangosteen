@@ -77,12 +77,7 @@ export const getImage = async function (data) {
             params.only = data.category
         }
 
-
         if (data.searchKey) {
-            // baseUrl = 'https://api.500px.com/v1/photos'
-            // params.feature = 'popular'
-            // params.include_licensing = true
-            // params.include_states = true
             baseUrl = 'https://api.500px.com/v1/photos/search'
             params.type = 'photos'
             params.term = data.searchKey
@@ -101,42 +96,33 @@ export const getImage = async function (data) {
             .then((res) => res.json())
             .then((json) => {
                 const urls = []
-
-                const { photos } = json
-                photos.forEach((item) => {
-                    const obj = {
-                        width: item.width,
-                        height: item.height,
-                        url: item.image_url[0],
-                        downloadUrl: item.images[0].url,
-                    }
-                    const { images } = item
-                    let maxSize = 0
-                    for (let i = 0; i < images.length; i++) {
-                        if (images[i].size >= 200 && images[i].size <= 700) {
-                            obj.url = images[i].https_url
+                if (json.photos) {
+                    json.photos.forEach((item) => {
+                        const obj = {
+                            width: item.width,
+                            height: item.height,
+                            url: item.image_url[0],
+                            downloadUrl: item.images[0].url,
                         }
-                        if (images[i].size > maxSize) {
-                            obj.downloadUrl = images[i].https_url
+                        const { images } = item
+                        let maxSize = 0
+                        for (let i = 0; i < images.length; i++) {
+                            if (images[i].size >= 200 && images[i].size <= 700) {
+                                obj.url = images[i].https_url
+                            }
+                            if (images[i].size > maxSize) {
+                                obj.downloadUrl = images[i].https_url
+                            }
+                            maxSize = images[i].size
                         }
-                        maxSize = images[i].size
-                    }
-                    // obj.height = parseInt(maxSize / obj.width * obj.height, 10)
-                    // obj.width = maxSize
-                    if (parseInt(obj.width, 10) > imageMinWidth) {
-                        urls.push(obj)
-                    }
-                })
-                // urls = json.photos.map((item) => {
-                //     console.log(item.images)
-                //     return {
-                //         url: item.image_url[0],
-                //         downloadUrl: item.images[0].url,
-                //         width: item.width,
-                //         height: item.height
-                //     }
-                // })
-                resolve(urls)
+                        // obj.height = parseInt(maxSize / obj.width * obj.height, 10)
+                        // obj.width = maxSize
+                        if (parseInt(obj.width, 10) > imageMinWidth) {
+                            urls.push(obj)
+                        }
+                    })
+                    resolve(urls)
+                }
             }).catch((err) => {
                 source = null
                 console.log('------------请求失败500px:', err)

@@ -40,7 +40,7 @@ const getUrl = {
 const getCategory = {
     // pexels: pexels.getImage,
     '500px': fiveHundred.getCategories,
-    // paper: paper.getImage,
+    paper: paper.getCategories,
     // unsplash: unsplash.getImage,
     // wallhaven: wallhaven.getImage,
     // nasa: nasa.getImage,
@@ -53,7 +53,6 @@ export const getCategories = function (data) {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         const s = data.imageSource
-        console.log(data)
         if (getCategory[s]) {
             getCategory[s](data).then((urls) => {
                 resolve(urls)

@@ -41,12 +41,11 @@ export const getImage = function (data) {
             from: '360chrome',
             c: 'WallPaper',
             // page: data.page + 1,
-            cid: data.category || 36,
+            cid: data.category,
             count: 10,
             start: data.page * 10
         }
         const str = queryString.stringify(params)
-
         const request = fetch(`${baseUrl}?${str}`)
         source = request
             .then((res) => res.json())

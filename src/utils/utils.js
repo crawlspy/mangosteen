@@ -60,11 +60,12 @@ export const imageSourceType = [{
     isSupportChinaSearch: true,
     category: true
 },
-// {
-//     name: 'paper',
-//     value: 'paper',
-//     search: false
-// },
+{
+    name: 'paper',
+    value: 'paper',
+    search: false,
+    category: true
+},
 {
     name: 'unsplash',
     value: 'unsplash',

@@ -15,19 +15,7 @@
                 </div>
             </el-row>
 
-            <div class="header-search" v-if="imageSource==='paper'">
-                <el-select
-                    class="header-search-input"
-                    v-model="searchKey"
-                    size="small"
-                    @change="searchKeyFn"
-                    @focus="searchKeyFocus=true"
-                    @blur="searchKeyFocus=false">
-                    <el-option v-for="item in paperClass" :key="item.value" :label="item.name" :value="item.value"></el-option>
-                </el-select>
-            </div>
-
-            <div class="header-search" v-else-if="currentImageSource.search">
+            <div class="header-search" v-if="currentImageSource.search">
                 <el-input
                     class="header-search-input"
                     v-model="searchKey"
@@ -186,13 +174,9 @@ export default {
         this.searchKeyList = this.$localStorage.getStore('searchKeyList') || DEFAULTSEARCHLIST
         this.images = []
         this.cleartLocalStorage()
-        if (this.imageSource === 'paper'){
-            this.paperInit()
-        }
-        if (this.currentImageSource.category) {
-            this.getCategories()
-        }
-        this.getData()
+
+        this.switchSource()
+
         this.eventInit()
         this.domContentMainMatch()
     },
@@ -201,6 +185,21 @@ export default {
         ...mapActions([
             'changeOsInfoStore',
         ]),
+        async switchSource() {
+            if (this.currentImageSource.category) {
+                // hack datainfo, 先请求分类在请求数据
+                this.$ipcRenderer.once('datainfo', async (event, { type = '', data }) => {
+                    if (type === 'category') {
+                        this.$nextTick(() => {
+                            this.getData()
+                        })
+                    }
+                })
+                await this.getCategories()
+            } else {
+                await this.getData()
+            }
+        },
 
         /**
          * 清除因版本更新后不再使用字段
@@ -288,6 +287,7 @@ export default {
                 // 分类列表
                 else if (type === 'category') {
                     this.categoryList = data
+                    this.category = data && data[0] && data[0].id
                 }
                 else if (type === 'urlsError'){
                     this.refreshBtnIng = false
@@ -531,9 +531,9 @@ export default {
             this.imageSource = val
             this.page = 0
             this.images = []
-            window.setTimeout(() => {
-                this.getData()
-            }, 100)
+            this.$nextTick(() => {
+                this.switchSource()
+            })
         },
 
         /**
@@ -608,36 +608,7 @@ export default {
         searchKeyListDelete(tag){
             this.searchKeyList = this.searchKeyList.filter((i) => i !== tag)
             this.domContentMainMatch()
-        },
-
-        paperInit(){
-            if (this.paperClass.length === 0){
-                // 发送同步消息，主进程通过returnValue返回 [注意：同步消息会阻塞渲染进程，会阻塞。也就是在此期间渲染进程什么都干不了！！干不了！！]
-                this.paperClass = this.$ipcRenderer.sendSync('runFunc', 'getPaperSetting')
-                if (this.paperClass.length){
-                    this.searchKey = this.paperClass[0].value
-                }
-                else {
-                    window.setTimeout(() => {
-                        this.searchKey = ''
-                        this.refreshBtnIng = false
-                        this.getDataFlag = false
-                        this.infoShow = INFOSHOW.netError
-                    }, 100)
-                }
-            }
         }
-    },
-    watch: {
-        imageSource(val, oldVal) {
-            if (val === 'paper') {
-                this.paperInit()
-            }
-            // eslint-disable-next-line eqeqeq
-            if (this.currentImageSource.category) {
-                this.getCategories()
-            }
-        },
     }
 }
 </script>
