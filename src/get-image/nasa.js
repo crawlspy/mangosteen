@@ -1,5 +1,10 @@
 /* eslint-disable max-len */
 
+import fetch from 'electron-fetch'
+import queryString from 'query-string'
+
+const { imageMinWidth } = require('../utils/config')
+
 const BASEPARAMS = {
     size: 50,
     from: 0,
@@ -13,13 +18,8 @@ const BASEURL = 'https://www.nasa.gov/api/2/ubernode/_search'
 const PUBLICURL = 'https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/'
 const DOWNLOADPUBLICURL = 'https://www.nasa.gov/sites/default/files/'
 
-const axios = require('axios')
-const { imageMinWidth } = require('../utils/config')
 
-const { CancelToken } = axios
 let source = null
-
-const { axiosGet } = require('../utils/axios')
 
 export const getImage = function (data) {
     return new Promise((resolve, reject) => {
@@ -28,49 +28,47 @@ export const getImage = function (data) {
             return
         }
         const baseUrl = BASEURL
-        source = CancelToken.source()
-        axiosGet({
-            url: baseUrl,
-            params: {
-                ...BASEPARAMS,
-                from: (data.page * BASEPARAMS.size)
-            },
-            cancelToken: source.token
-        }).then((result) => {
-            source = null
 
-            const { hits: { hits } } = result
-            const urls = []
+        const params = {
+            ...BASEPARAMS,
+            from: (data.page * BASEPARAMS.size)
+        }
+        const str = queryString.stringify(params)
+        const request = fetch(`${baseUrl}?${str}`)
 
-            hits.forEach((item) => {
-                const { _source: { 'master-image': imageData } } = item
-                const { width, height, uri } = imageData
-                const obj = {
-                    width,
-                    height,
-                    url: uri.replace('public://', PUBLICURL),
-                    downloadUrl: uri.replace('public://', DOWNLOADPUBLICURL),
-                }
-                if (parseInt(obj.width, 10) > imageMinWidth){
-                    urls.push(obj)
-                }
+        request
+            .then((res) => res.json())
+            .then((result) => {
+                source = null
+
+                const { hits: { hits } } = result
+                const urls = []
+
+                hits.forEach((item) => {
+                    const { _source: { 'master-image': imageData } } = item
+                    const { width, height, uri } = imageData
+                    const obj = {
+                        width,
+                        height,
+                        url: uri.replace('public://', PUBLICURL),
+                        downloadUrl: uri.replace('public://', DOWNLOADPUBLICURL),
+                    }
+                    if (parseInt(obj.width, 10) > imageMinWidth){
+                        urls.push(obj)
+                    }
+                })
+                resolve(urls)
+            }).catch((error) => {
+                source = null
+                console.log('------------请求失败nasa:', error)
+                reject()
             })
-            resolve(urls)
-        }).catch((error) => {
-            source = null
-            console.log('------------请求失败nasa:', error)
-            reject()
-        })
     })
 }
 
-// getImage({
-//     page: 0,
-//     searchKey: ''
-// })
 
 export const cancelImage = function () {
     if (source) {
-        source.cancel()
+        // source.cancel()
     }
 }
