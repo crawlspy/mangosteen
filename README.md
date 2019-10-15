@@ -155,6 +155,14 @@ https://github.com/icai/Strawberry-Wallpaper/releases
 - 优化搜索框
 - 修复一些bug
 
+> 2.4.1
+- 修复pexels请求错误
+- 重新启用paper数据
+- 优化原有请求代码
+- 修改反馈邮件底层逻辑
+
+
+
 
 
 ## 用户统计
