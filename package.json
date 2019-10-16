@@ -1,6 +1,6 @@
 {
   "name": "strawberrywallpaper",
-  "version": "v2.4.1",
+  "version": "v2.4.2",
   "author": "taoacat，流浪记，Terry",
   "description": "a wallpaper app by electron",
   "license": "",
@@ -20,7 +20,8 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "npm run lint:fix",
-    "docs": "docsify serve docs"
+    "docs": "docsify serve docs",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "build": {
     "productName": "Strawberry Wallpaper",
@@ -69,6 +70,7 @@
     "babel-eslint": "^10.0.3",
     "cfonts": "^2.4.5",
     "chalk": "^2.4.2",
+    "conventional-changelog": "^3.1.12",
     "copy-webpack-plugin": "^5.0.4",
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
