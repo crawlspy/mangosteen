@@ -47,7 +47,7 @@ export const getImage = function (data) {
         const request = fetch(`${baseUrl}?${str}`)
 
         request
-            .then((res) => res.json())
+            .then((res) => res.text())
             .then((result) => {
                 source = null
                 const urls = []
@@ -69,9 +69,9 @@ export const getImage = function (data) {
                     }
                 })
                 resolve(urls)
-            }).catch(() => {
+            }).catch((error) => {
                 source = null
-                console.log('------------请求失败wallhaven:', baseUrl)
+                console.log('------------请求失败wallhaven:', baseUrl, error)
                 reject()
             })
     })
