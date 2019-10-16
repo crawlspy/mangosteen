@@ -75,22 +75,9 @@ https://github.com/icai/Strawberry-Wallpaper/releases
 
 ## 用户统计
 草莓壁纸会针对用户安装量以及用户的活跃量进行统计，根据用户的网卡信息生成唯一UID。统计信息只获取用户的电脑系统，用户电脑用户名。
-可以打开[草莓壁纸后台统计平台](http://sw.taoacat.com)进行查看相关统计数据。后台统计相关接口采用go语言开发，[项目地址](https://github.com/wangkaibo/strawberry-wallpaper)：https://github.com/wangkaibo/strawberry-wallpaper 欢迎点赞，支持。
+可以打开[草莓壁纸后台统计平台](http://sw.taoacat.com)进行查看相关统计数据。
+后台统计相关接口采用go语言开发，[项目地址](https://github.com/wangkaibo/strawberry-wallpaper)：https://github.com/wangkaibo/strawberry-wallpaper 欢迎点赞，支持。
 
 ## LICENSE
 
 MIT
-
-## 点👍
-
-如果觉得本项目不错，请点击页面右上角的的小星星。也可以为作者点👍，欢迎打赏。
-
-![👍](http://file.qiniu.taoacat.com/github-start.png)
-
-<img src="http://file.qiniu.taoacat.com/wechat-money.png" width="200px" />
-
-## 感谢
-- vue
-- electron
-- vue-electron
-- ...
