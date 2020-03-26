@@ -2,25 +2,26 @@
     "name": "Bing",
     "value": "bing",
     "description": "", 
-    "parsetype": "json|html",
+    "type": "json|html",
     "category": "true",
-    "categoryUrl": "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2",
+    "search": "boolean",
+    "chinesesearch": "boolean",
+    "categoryurl": "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2",
     "categorymath": "json.data",
     "categoryitem": {
         "id": "xxx.xxx",
         "name": "xxx.xxx"
      },
+    "categoryparam": "",
     "pageurl": "https://bing.ioliu.cn/?p={page}&{cat}`",
     "pagestart": "1",
-    "pagesmatch": ".s > img",
+    "pagematch": ".s > img",
     "pageitem": {
         "url": "",
-        "downloadUrl": "  | | |",
+        "downloadurl": "  | | |",
         "width": "",
         "height": ""
     },
-    "search": "boolean",
-    "chinesesearch": "boolean",
-    "searchUrl": "https://bing.ioliu.cn/?p{keyword}",
+    "searchurl": "https://bing.ioliu.cn/?p{keyword}",
     "useragent": []
 }

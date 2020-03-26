@@ -5,8 +5,6 @@ const { imageMinWidth } = require('../utils/config')
 
 let source = null
 
-const { axiosGet } = require('../utils/axios')
-
 export const getCategories = function() {
   return new Promise((resolve, reject) => {
     const url = 'https://service.paper.meiyuan.in/api/v2/columns'

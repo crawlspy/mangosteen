@@ -1,0 +1,19 @@
+{
+    "name": "Bing",
+    "value": "bing",
+    "description": "bing wallpager", 
+    "type": "html",
+    "category": false,
+    "search": false,
+    "chinesesearch": false,
+    "pageurl": "https://bing.ioliu.cn/?p={page}",
+    "pagestart": 1,
+    "pagematch": ".progressive__img",
+    "pageitem": {
+        "url": "$.data-progressive",
+        "downloadurl": " $.data-progressive | replace sss",
+        "width": "1920",
+        "height": "1080"
+    },
+    "useragent": []
+}
