@@ -8,17 +8,17 @@
 const AutoLaunch = require('auto-launch')
 
 const minecraftAutoLauncher = new AutoLaunch({
-    name: 'Strawberry Wallpaper',
+  name: 'Strawberry Wallpaper'
 })
- 
-export const openAutoStart = function (){
-    return minecraftAutoLauncher.enable() // 设置开机自动启动
+
+export const openAutoStart = function() {
+  return minecraftAutoLauncher.enable() // 设置开机自动启动
 }
 
-export const openDisStart = function (){
-    return minecraftAutoLauncher.disable() // 禁止开机自动启动
+export const openDisStart = function() {
+  return minecraftAutoLauncher.disable() // 禁止开机自动启动
 }
 
-export const openType = async function (){
-    await minecraftAutoLauncher.isEnabled()
+export const openType = async function() {
+  await minecraftAutoLauncher.isEnabled()
 }

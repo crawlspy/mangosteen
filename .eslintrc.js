@@ -11,7 +11,7 @@ module.exports = {
         "node": true,
         "amd": true
     },
-    extends: ['plugin:vue/essential', 'airbnb-base'],
+    extends: ['plugin:vue/essential', 'airbnb-base', '@vue/prettier'],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly'
@@ -32,12 +32,13 @@ module.exports = {
     },
     rules: {
         // 句尾分号可以省略
-        'semi': ['error', 'never'],
+        // 'semi': ['error', 'never'],
         // 代码中console/debugger处理
+        "prettier/prettier": ["error", { "singleQuote": true, "semi": false }],
         'no-console': 'off',
         'no-debugger': 'off',
         // 代码使用4个空格的缩进风格
-        'indent': ['error', 4],
+        'indent': ['error', 2],
         // 关闭命名function表达式规则
         'func-names': 'off',
         // 可以行尾空白

@@ -12,15 +12,15 @@ const localStorage = require('./local-storage')
 const { deepClone, typeOf } = require('./common-fn')
 
 export default {
-    version: '0.0.1',
-    install(Vue) {
-        // debugger error paper type, try fix
-        // localStorage.cleanStore()
-        Vue.prototype.$electron = electron
-        Vue.prototype.$deepClone = deepClone
-        Vue.prototype.$localStorage = localStorage
-        Vue.prototype.$typeOf = typeOf
-        Vue.prototype.$ipcRenderer = ipcRenderer
-        Vue.prototype.$http = axios
-    },
+  version: '0.0.1',
+  install(Vue) {
+    // debugger error paper type, try fix
+    // localStorage.cleanStore()
+    Vue.prototype.$electron = electron
+    Vue.prototype.$deepClone = deepClone
+    Vue.prototype.$localStorage = localStorage
+    Vue.prototype.$typeOf = typeOf
+    Vue.prototype.$ipcRenderer = ipcRenderer
+    Vue.prototype.$http = axios
+  }
 }

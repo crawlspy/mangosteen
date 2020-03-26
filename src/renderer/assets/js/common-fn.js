@@ -7,48 +7,48 @@
 
 /**
  * 深度克隆一个对象
- * @param {*} obj 
- * @param {*} cache 
+ * @param {*} obj
+ * @param {*} cache
  */
-export const deepClone = function (obj, cache = []) {
-    if (obj === null || typeof obj !== 'object') {
-        return obj
-    }
-    const hit = cache.find((c) => c.original === obj)
-    if (hit) {
-        return hit.copy
-    }
+export const deepClone = function(obj, cache = []) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+  const hit = cache.find(c => c.original === obj)
+  if (hit) {
+    return hit.copy
+  }
 
-    const copy = Array.isArray(obj) ? [] : {}
-    cache.push({
-        original: obj,
-        copy
-    })
+  const copy = Array.isArray(obj) ? [] : {}
+  cache.push({
+    original: obj,
+    copy
+  })
 
-    Object.keys(obj).forEach((key) => {
-        copy[key] = deepClone(obj[key], cache)
-    })
+  Object.keys(obj).forEach(key => {
+    copy[key] = deepClone(obj[key], cache)
+  })
 
-    return copy
+  return copy
 }
 
 /**
-  * 判断类型
-  * @param {*} obj 
-  */
-export const typeOf = (obj) => {
-    const { toString } = Object.prototype
-    const map = {
-        '[object Boolean]': 'boolean',
-        '[object Number]': 'number',
-        '[object String]': 'string',
-        '[object Function]': 'function',
-        '[object Array]': 'array',
-        '[object Date]': 'date',
-        '[object RegExp]': 'regExp',
-        '[object Undefined]': 'undefined',
-        '[object Null]': 'null',
-        '[object Object]': 'object'
-    }
-    return map[toString.call(obj)]
+ * 判断类型
+ * @param {*} obj
+ */
+export const typeOf = obj => {
+  const { toString } = Object.prototype
+  const map = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String]': 'string',
+    '[object Function]': 'function',
+    '[object Array]': 'array',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regExp',
+    '[object Undefined]': 'undefined',
+    '[object Null]': 'null',
+    '[object Object]': 'object'
+  }
+  return map[toString.call(obj)]
 }
