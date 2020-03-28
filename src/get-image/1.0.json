@@ -22,6 +22,9 @@
         "width": "",
         "height": ""
     },
+    "headers": {
+        "Authorization": "563492ad6f917000010000011e94c11a3a53429faf82e46522844d3d"
+    },
     "searchurl": "https://bing.ioliu.cn/?p{keyword}",
-    "useragent": []
+    "useragent": false
 }
