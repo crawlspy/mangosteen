@@ -14,7 +14,7 @@ const formatUrl = function(url, data) {
     })
     return value === null || value === undefined ? '' : value
   }
-  const _evalregex = /\{\{([\w.*/+-\s]*)\}\}/g
+  const _evalregex = /\{\{([\S\s]*?)\}\}/g
   // operator {{page * 10}}
   url = url.replace(_evalregex, function(str, ekey) {
     let ukey = ekey
@@ -101,7 +101,8 @@ const getImage = async (protocol, data) => {
   if(data.page == 0 && protocol.pageoffset) {
     pageoffset = '';
   }
-  let url = protocol.search && data.searchKey ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
+  console.log(protocol.search, data.searchKey, protocol.searchurl, data, formatUrl(protocol.pageurl, data))
+  let url = protocol.search && data.keyword ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
   let option
   if(protocol.useragent) {
     option = {
@@ -126,6 +127,7 @@ const getImage = async (protocol, data) => {
     }
   } else if (protocol.type === 'html') {
     result = await res.text()
+    // console.log(result)
     const $ = cheerio.load(result)
     const images = $((data.keyword && protocol.searchmatch) ? protocol.searchmatch : protocol.pagematch)
     if (images && images.length) {
@@ -140,7 +142,7 @@ const getImage = async (protocol, data) => {
         pageoffset = parseHtmlChild($(pageo), protocol.pageoffset)
       }
     } else {
-      console.log(result)
+      // console.log(result)
     }
 
   }

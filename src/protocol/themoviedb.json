@@ -1,0 +1,19 @@
+{
+    "name": "TMDB",
+    "value": "themoviedb",
+    "description": "themoviedb wallpager", 
+    "type": "html",
+    "category": false,
+    "search": true,
+    "chinesesearch": false,
+    "pageurl": "https://www.themoviedb.org/discover/movie{{(page+1 > 1) ? '/items': ''}}?page={{page+1}}&p=air_date.gte=&air_date.lte=2020-09-28&certification=&certification_country=SG&debug=&first_air_date.gte=&first_air_date.lte=&language=en-US&ott_region=AU&page=1&primary_release_date.gte=&primary_release_date.lte=&region=&release_date.gte=&release_date.lte=2020-09-28&show_me=0&sort_by=popularity.desc&vote_average.gte=0&vote_average.lte=10&vote_count.gte=0&with_genres=&with_keywords=&with_networks=&with_origin_country=&with_original_language=&with_ott_monetization_types=&with_ott_providers=&with_release_type=&with_runtime.gte=0&with_runtime.lte=400",
+    "pagematch": ".poster",
+    "pageitem": {
+        "url": "attr('data-src') | replace('w220_and_h330_face','w500')",
+        "downloadurl": "attr('data-src') | replace('w220_and_h330_face','original')",
+        "width": "2000",
+        "height": "3000"
+    },
+    "searchurl": "https://www.themoviedb.org/discover/movie/items?page={{page+1}}&p=air_date.gte=&air_date.lte=2020-09-28&certification=&certification_country=SG&debug=&first_air_date.gte=&first_air_date.lte=&language=en-US&ott_region=AU&page=1&primary_release_date.gte=&primary_release_date.lte=&region=&release_date.gte=&release_date.lte=2020-09-28&show_me=0&sort_by=popularity.desc&vote_average.gte=0&vote_average.lte=10&vote_count.gte=0&with_genres=&with_keywords={keyword}&with_networks=&with_origin_country=&with_original_language=&with_ott_monetization_types=&with_ott_providers=&with_release_type=&with_runtime.gte=0&with_runtime.lte=400",
+    "useragent": false
+}
