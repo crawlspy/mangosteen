@@ -28,29 +28,39 @@ const protocols = modulesFiles.keys().reduce((mols, modPath) => {
 }, {})
 
 const formatUrl = function(url, data) {
-  var _regex = /\{([\w\.]*)\}/g;
-  return url.replace(_regex, function (str, key) {
-    var keys = key.split('.'), value = data[keys.shift()];
-    keys.forEach(function() { value = value[this]; });
-    return (value === null || value === undefined) ? '' : value;
-  });
+  const _regex = /\{([\w.]*)\}/g
+  return url.replace(_regex, function(str, key) {
+    const keys = key.split('.')
+    let value = data[keys.shift()]
+    keys.forEach(function() {
+      value = value[this]
+    })
+    return value === null || value === undefined ? '' : value
+  })
 }
 
-const parseHtmlChild = ()=> {
+const parseHtmlChild = () => {}
 
-}
+const parseJsonChild = () => {}
 
-const parseJsonChild = ()=> {
-
-}
-
-const jsonDeep = (json, target)=> {
-
+const jsonDeep = (s, target) => {
+  const tarr = target.split('.')
+  let json = s
+  let cur = null
+  // eslint-disable-next-line no-cond-assign
+  while ((cur = tarr.shift())) {
+    json = json[cur]
+    if (tarr.length === 0) {
+      return json
+    }
+  }
+  return json
 }
 
 const getImage = async (protocol, data) => {
   const res = await fetch(formatUrl(protocol.pageurl, data))
   let result
+  let urls = []
   if (protocol.type === 'json') {
     result = await res.json()
     const images = jsonDeep(result, protocol.pagematch)
@@ -66,7 +76,6 @@ const getImage = async (protocol, data) => {
     result = await res.text()
     const $ = cheerio.load(result)
     const images = $(protocol.pagematch)
-    let urls = []
     if (images.length) {
       urls = [].slice.call(images, 0).map(item => ({
         url: parseHtmlChild(item, protocol.pageitem.url),
@@ -75,14 +84,9 @@ const getImage = async (protocol, data) => {
         height: parseHtmlChild(item, protocol.pageitem.height)
       }))
     }
-    return urls
+  }
+  return urls
 }
-
-
-
-
-
-
 
 const cancelFn = {
   pexels: pexels.cancelImage,
@@ -119,6 +123,16 @@ const getCategory = {
   // bing: bing.getImage,
   360: qh360.getCategories
 }
+
+export const imageSourceTypeb = protocols.map(item => {
+  const { name, value, search } = item
+  return {
+    name,
+    value,
+    search,
+    isSupportChinaSearch: item.chinesesearch
+  }
+})
 
 export const getCategories = function(data) {
   // eslint-disable-next-line no-async-promise-executor
