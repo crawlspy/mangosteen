@@ -41,6 +41,9 @@ const v = {
   },
   filters: {
     // filter
+    attribs: (el, attr)=> {
+      return el.attribs[attr]
+    },
     get: (a, b) => {
       return a[b]
     },
@@ -58,11 +61,6 @@ const v = {
 const parseHtmlChild = (item, exp) => {
   exp = exp.trim()
   // attribs
-  if (/^\$\.([\w\-]+)\s*/.test(exp)) {
-    exp = exp.replace(/^\$\.([\w\-]+)\s*/, ($, a) => {
-      return `attribs["${a}"] `
-    })
-  }
   const str = new Function('_f, $', `with($){ return ${parseFilters(exp)}}`)(
     v.resolveFilter,
     item
@@ -91,14 +89,29 @@ const jsonDeep = (s, target) => {
   }
   return json
 }
-
+let pageoffset = '';
 const getImage = async (protocol, data) => {
   if (protocol.categoryparam) {
     // category param
     data[protocol.categoryparam] = data.category
   }
-  let url = data.searchKey ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
-  const res = await fetch(url)
+  if(data.searchKey) {
+    // alias
+    data.keyword = data.searchKey
+  }
+  if(data.page == 0 && protocol.pageoffset) {
+    pageoffset = '';
+  }
+  let url = protocol.search && data.searchKey ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
+  let option
+  if(protocol.useragent) {
+    option = {
+      headers: {
+        agent: protocol.useragent
+      }
+    }
+  }
+  const res = await fetch(url, option)
   let result
   let urls = []
   if (protocol.type === 'json') {
@@ -123,7 +136,14 @@ const getImage = async (protocol, data) => {
         width: parseHtmlChild(item, protocol.pageitem.width),
         height: parseHtmlChild(item, protocol.pageitem.height)
       }))
+      if(protocol.pageoffsetmatch) {
+        let pageo = $(protocol.pageoffsetmatch)[0]
+        pageoffset = parseHtmlChild(pageo, protocol.pageoffset)
+      }
+    } else {
+      console.log(result)
     }
+
   }
   return urls
 }
@@ -137,7 +157,7 @@ const getCategory2 = async (protocol, data) => {
   let urls = []
   if (protocol.type === 'json') {
     result = await res.json()
-    const cats = jsonDeep(result, protocol.categorymath)
+    const cats = jsonDeep(result, protocol.categorymatch)
     if (cats.length) {
       urls = [].slice.call(cats, 0).map(item => ({
         id: parseJsonChild(item, protocol.categoryitem.id),
@@ -147,7 +167,7 @@ const getCategory2 = async (protocol, data) => {
   } else if (protocol.type === 'html') {
     result = await res.text()
     const $ = cheerio.load(result)
-    const cats = $(protocol.categorymath)
+    const cats = $(protocol.categorymatch)
     if (cats.length) {
       urls = [].slice.call(cats, 0).map(item => ({
         id: parseHtmlChild(item, protocol.categoryitem.id),

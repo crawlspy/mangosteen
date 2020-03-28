@@ -7,7 +7,7 @@
     "search": "boolean",
     "chinesesearch": "boolean",
     "categoryurl": "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2",
-    "categorymath": "json.data",
+    "categorymatch": "json.data",
     "categoryitem": {
         "id": "xxx.xxx",
         "name": "xxx.xxx"

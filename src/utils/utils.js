@@ -2,7 +2,6 @@ const elog = require('electron-log')
 const fs = require('fs')
 const path = require('path')
 
-
 const modulesFiles = {}
 fs.readdirSync(path.resolve(__dirname, '../protocol')).forEach(file => {
   let model = fs.readFileSync(path.join(__dirname, '../protocol', file))

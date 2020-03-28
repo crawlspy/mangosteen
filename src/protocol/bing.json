@@ -7,11 +7,10 @@
     "search": false,
     "chinesesearch": false,
     "pageurl": "https://bing.ioliu.cn/?p={page}",
-    "pagestart": 1,
     "pagematch": ".progressive__img",
     "pageitem": {
-        "url": "$.data-progressive",
-        "downloadurl": " $.data-progressive | replace('_640x480.jpg?imageslim','?force=download') ",
+        "url": "attribs['data-progressive']",
+        "downloadurl": "attribs['data-progressive'] | replace('640x480','1920x1080')",
         "width": "1920",
         "height": "1080"
     },

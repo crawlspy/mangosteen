@@ -162,6 +162,7 @@ import { osType, imageSourceType } from '../../utils/utils'
 import { version } from '../../../package'
 import setter from './setter'
 import swProgress from './progress'
+
 const log = require('electron-log')
 const { shell } = require('electron')
 const os = require('os')

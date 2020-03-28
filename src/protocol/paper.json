@@ -1,0 +1,24 @@
+{
+    "name": "paper",
+    "value": "paper",
+    "description": "paper wallpager", 
+    "type": "json",
+    "category": true,
+    "search": false,
+    "chinesesearch": false,
+    "categoryurl": "https://service.paper.meiyuan.in/api/v2/columns",
+    "categorymatch": "",
+    "categoryitem": {
+        "id": "_id",
+        "name": "langs['zh-Hant']"
+     },
+    "categoryparam": "cid",
+    "pageurl": "https://service.paper.meiyuan.in/api/v2/columns/flow/{category}?page={{page+1}}&per_page=20",
+    "pagematch": "",
+    "pageitem": {
+        "url": "urls.small",
+        "downloadurl": "urls.raw",
+        "width": "width",
+        "height": "height"
+    }
+}
