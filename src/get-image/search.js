@@ -113,6 +113,12 @@ const getImage = async (protocol, data) => {
   if(protocol.pagemethod) {
     option.method = protocol.pagemethod
   }
+  if(protocol.headers) {
+    option.headers = {
+      ... option.headers,
+      ...protocol.headers
+    }
+  }
   const res = await fetch(url, option)
   let result
   let urls = []

@@ -1,0 +1,23 @@
+{
+    "name": "Pexels",
+    "value": "pexels",
+    "description": "pexels wallpager", 
+    "type": "json",
+    "category": false,
+    "search": true,
+    "chinesesearch": false,
+    "pageurl": "https://api.pexels.com/v1/curated?per_page=15&page={{page+1}}",
+    "searchurl": "https://api.pexels.com/v1/search?query={keyword}&per_page=15&page={{page+1}}",
+    "searchmatch": "",
+    "pagematch": "photos",
+    "pageitem": {
+        "url": "src.large",
+        "downloadurl": "src.original",
+        "width": "width",
+        "height": "height"
+    },
+    "headers": {
+        "Authorization": "563492ad6f917000010000011e94c11a3a53429faf82e46522844d3d"
+    },
+    "useragent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"
+}
