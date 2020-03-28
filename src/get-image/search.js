@@ -103,13 +103,15 @@ const getImage = async (protocol, data) => {
   }
   console.log(protocol.search, data.searchKey, protocol.searchurl, data, formatUrl(protocol.pageurl, data))
   let url = protocol.search && data.keyword ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
-  let option
+  let option = {};
   if(protocol.useragent) {
-    option = {
-      headers: {
-        agent: protocol.useragent
-      }
+    option.headers = {
+      agent: protocol.useragent,
+      ... option.headers
     }
+  }
+  if(protocol.pagemethod) {
+    option.method = protocol.pagemethod
   }
   const res = await fetch(url, option)
   let result
@@ -142,7 +144,7 @@ const getImage = async (protocol, data) => {
         pageoffset = parseHtmlChild($(pageo), protocol.pageoffset)
       }
     } else {
-      // console.log(result)
+      console.log(result)
     }
 
   }

@@ -12,10 +12,10 @@
         "id": "xxx.xxx",
         "name": "xxx.xxx"
      },
-    "categoryparam": "",
     "pageurl": "https://bing.ioliu.cn/?p={page}&{cat}`",
-    "pagestart": "1",
     "pagematch": ".s > img",
+    "pagemethod": "post",
+    "pageoffset": "attribs('href') | split('?') | get(1)",
     "pageitem": {
         "url": "",
         "downloadurl": "  | | |",

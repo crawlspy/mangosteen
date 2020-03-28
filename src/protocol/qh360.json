@@ -12,7 +12,6 @@
         "id": "id",
         "name": "name"
      },
-    "categoryparam": "cid",
     "pageurl": "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid={category}&start={{page*10}}&count=10&from=360chrome",
     "pagematch": "data",
     "pageitem": {
