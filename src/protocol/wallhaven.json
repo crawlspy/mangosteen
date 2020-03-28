@@ -1,0 +1,19 @@
+{
+    "name": "Wallhaven",
+    "value": "wallhaven",
+    "description": "wallhaven wallpager", 
+    "type": "html",
+    "category": false,
+    "search": false,
+    "chinesesearch": false,
+    "pageurl": "https://wallhaven.cc/latest?page={{page+1}}",
+    "searchurl": "https://wallhaven.cc/search?q={keyword}&page={{page+1}}&categories=110&purity=100&sorting=date_added&order=desc",
+    "pagematch": "figure",
+    "pageitem": {
+        "url": "find('img').attr('data-src')",
+        "downloadurl": "find('img').attr('data-src') | replace('th.wallhaven.cc/small','w.wallhaven.cc/full') | lastafter('/', 'wallhaven-')",
+        "width": "find('.wall-res').html() | split('x') | get(0)",
+        "height": "find('.wall-res').html() | split('x') | get(1)"
+    },
+    "useragent": false
+}

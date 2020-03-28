@@ -41,8 +41,9 @@ const v = {
   },
   filters: {
     // filter
-    attribs: (el, attr)=> {
-      return el.attribs[attr]
+    lastafter: (str, last, ins)=> {
+      let index = str.lastIndexOf(last);
+      return str.substring(0, index + 1) + ins + str.substring(index + 1,str.length)
     },
     get: (a, b) => {
       return a[b]
@@ -56,8 +57,6 @@ const v = {
   }
 }
 
-// "$.data-progressive | replace('_640x480.jpg?imageslim','?force=download') "
-// "_f("replace")(item.attribs[“data-progressive"],'_640x480.jpg?imageslim','?force=download')"
 const parseHtmlChild = (item, exp) => {
   exp = exp.trim()
   // attribs
@@ -116,8 +115,8 @@ const getImage = async (protocol, data) => {
   let urls = []
   if (protocol.type === 'json') {
     result = await res.json()
-    const images = jsonDeep(result, protocol.pagematch)
-    if (images.length) {
+    const images = jsonDeep(result, (data.keyword && protocol.searchmatch) ? protocol.searchmatch : protocol.pagematch)
+    if (images && images.length) {
       urls = [].slice.call(images, 0).map(item => ({
         url: parseJsonChild(item, protocol.pageitem.url),
         downloadUrl: parseJsonChild(item, protocol.pageitem.downloadurl),
@@ -128,17 +127,17 @@ const getImage = async (protocol, data) => {
   } else if (protocol.type === 'html') {
     result = await res.text()
     const $ = cheerio.load(result)
-    const images = $(protocol.pagematch)
-    if (images.length) {
+    const images = $((data.keyword && protocol.searchmatch) ? protocol.searchmatch : protocol.pagematch)
+    if (images && images.length) {
       urls = [].slice.call(images, 0).map(item => ({
-        url: parseHtmlChild(item, protocol.pageitem.url),
-        downloadUrl: parseHtmlChild(item, protocol.pageitem.downloadurl),
-        width: parseHtmlChild(item, protocol.pageitem.width),
-        height: parseHtmlChild(item, protocol.pageitem.height)
+        url: parseHtmlChild($(item), protocol.pageitem.url),
+        downloadUrl: parseHtmlChild($(item), protocol.pageitem.downloadurl),
+        width: parseHtmlChild($(item), protocol.pageitem.width),
+        height: parseHtmlChild($(item), protocol.pageitem.height)
       }))
       if(protocol.pageoffsetmatch) {
         let pageo = $(protocol.pageoffsetmatch)[0]
-        pageoffset = parseHtmlChild(pageo, protocol.pageoffset)
+        pageoffset = parseHtmlChild($(pageo), protocol.pageoffset)
       }
     } else {
       console.log(result)

@@ -106,5 +106,5 @@
         "width": "width",
         "height": "height"
     },
-    "useragent": []
+    "useragent": false
 }

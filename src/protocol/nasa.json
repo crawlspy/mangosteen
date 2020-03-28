@@ -1,5 +1,5 @@
 {
-    "name": "nasa",
+    "name": "Nasa",
     "value": "nasa",
     "description": "nasa wallpager", 
     "type": "json",
@@ -14,5 +14,5 @@
         "width": "_source['master-image'].width",
         "height": "_source['master-image'].height"
     },
-    "useragent": []
+    "useragent": false
 }

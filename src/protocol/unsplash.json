@@ -1,0 +1,20 @@
+{
+    "name": "Unsplash",
+    "value": "unsplash",
+    "description": "unsplash wallpager", 
+    "type": "json",
+    "category": false,
+    "search": true,
+    "chinesesearch": false,
+    "pageurl": "https://unsplash.com/napi/photos?page={{page+1}}&per_page=50&share_key=a4a197fc196734b74c9d87e48cc86838",
+    "pagematch": "",
+    "pageitem": {
+        "url": "urls.small",
+        "downloadurl": "urls.full",
+        "width": "width",
+        "height": "height"
+    },
+    "searchurl": "https://unsplash.com/napi/search/photos?query={keyword}&xp=&&page={{page+1}}&per_page=50&share_key=a4a197fc196734b74c9d87e48cc86838",
+    "searchmatch": "results",
+    "useragent": false
+}

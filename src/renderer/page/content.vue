@@ -183,7 +183,7 @@ const INFOSHOW = {
 }
 // 定义存储最近搜索的最大长度
 const SEARCHKEYSMAX = 8
-const DEFAULTSEARCHLIST = ['cat', 'dog', '沙漠', '自然', '食物']
+const DEFAULTSEARCHLIST = ['cat', 'movie', 'dog', 'travel', 'nature', 'food']
 
 export default {
   name: 'mainContent',
