@@ -11,7 +11,7 @@
     "pagematch": ".progressive__img",
     "pageitem": {
         "url": "$.data-progressive",
-        "downloadurl": " $.data-progressive | replace:_640x480.jpg?imageslim,?force=download ",
+        "downloadurl": " $.data-progressive | replace('_640x480.jpg?imageslim','?force=download') ",
         "width": "1920",
         "height": "1080"
     },

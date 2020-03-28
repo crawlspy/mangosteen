@@ -1,4 +1,14 @@
 const elog = require('electron-log')
+const fs = require('fs')
+const path = require('path')
+
+
+const modulesFiles = {}
+fs.readdirSync(path.resolve(__dirname, '../protocol')).forEach(file => {
+  let model = fs.readFileSync(path.join(__dirname, '../protocol', file))
+  model = JSON.parse(model)
+  modulesFiles[model.value] = model
+})
 
 elog.transports.file.level = 'debug'
 
@@ -41,55 +51,15 @@ export function isDev() {
   return process.env.NODE_ENV === 'development'
 }
 
-export const imageSourceType = [
-  {
-    name: 'pexels',
-    value: 'pexels',
-    search: true
-  },
-  {
-    name: '360',
-    value: '360',
-    search: false,
-    category: true
-  },
-  {
-    name: 'bing',
-    value: 'bing',
-    search: false
-  },
-  {
-    name: '500px',
-    value: '500px',
-    search: true,
-    isSupportChinaSearch: true,
-    category: true
-  },
-  {
-    name: 'paper',
-    value: 'paper',
-    search: false,
-    category: true
-  },
-  {
-    name: 'unsplash',
-    value: 'unsplash',
-    search: true
-  },
-  {
-    name: 'wallhaven',
-    value: 'wallhaven',
-    search: true
-  },
-  {
-    name: 'NASA',
-    value: 'nasa',
-    search: false
-  },
-  {
-    name: '电影',
-    value: 'themoviedb',
-    search: true,
-    isSupportChinaSearch: true // 是否支持中文搜索
+export const protocols = Object.values(modulesFiles)
+
+export const imageSourceType = protocols.map(item => {
+  const { name, value, search } = item
+  return {
+    name,
+    value,
+    search,
+    category: item.category || false,
+    isSupportChinaSearch: item.chinesesearch
   }
-]
+})

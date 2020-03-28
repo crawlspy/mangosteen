@@ -2,7 +2,7 @@ const os = require('os')
 
 const state = {
   config: {
-    imageSource: 'pexels', // 图片来源
+    imageSource: 'bing', // 图片来源
     isOpenStatr: false, // 开机启动
     wallpaperAutoUp: false, // 壁纸自动更新
     updataTime: '3600', // 自动更新时间

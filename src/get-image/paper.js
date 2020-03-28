@@ -30,9 +30,7 @@ export const getImage = function(data) {
       resolve([])
       return
     }
-    const baseUrl = `https://service.paper.meiyuan.in/api/v2/columns/flow/${
-      data.category
-    }`
+    const baseUrl = `https://service.paper.meiyuan.in/api/v2/columns/flow/${data.category}`
 
     const params = {
       page: data.page + 1,
