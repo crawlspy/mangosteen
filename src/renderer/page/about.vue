@@ -29,7 +29,7 @@ export default {
   mounted() {},
   methods: {
     goToPro() {
-      shell.openExternal('https://github.com/aitexiaoy/Strawberry-Wallpaper')
+      shell.openExternal('https://github.com/aitexiaoy/Mangosteen-Wallpaper')
     }
   }
 }

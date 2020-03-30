@@ -1,5 +1,5 @@
 {
-  "name": "strawberrywallpaper",
+  "name": "mangosteenwallpaper",
   "version": "v2.4.2",
   "author": "taoacat，流浪记，Terry",
   "description": "a wallpaper app by electron",
@@ -25,8 +25,8 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "build": {
-    "productName": "Strawberry Wallpaper",
-    "appId": "9Y7KR6Q842.com.taoacat.wallpaperapplications",
+    "productName": "Mangosteen Wallpaper",
+    "appId": "20091a6c85f776.com.w3cub.mangosteen",
     "directories": {
       "output": "build"
     },

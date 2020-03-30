@@ -18,7 +18,7 @@ const formatUrl = function(url, data) {
   // operator {{page * 10}}
   url = url.replace(_evalregex, function(str, ekey) {
     let ukey = ekey
-    Object.keys(data).forEach((item)=> {
+    Object.keys(data).forEach(item => {
       ukey = ukey.replace(item, data[item])
     })
     try {
@@ -41,9 +41,11 @@ const v = {
   },
   filters: {
     // filter
-    lastafter: (str, last, ins)=> {
-      let index = str.lastIndexOf(last);
-      return str.substring(0, index + 1) + ins + str.substring(index + 1,str.length)
+    lastafter: (str, last, ins) => {
+      const index = str.lastIndexOf(last)
+      return (
+        str.substring(0, index + 1) + ins + str.substring(index + 1, str.length)
+      )
     },
     get: (a, b) => {
       return a[b]
@@ -88,34 +90,36 @@ const jsonDeep = (s, target) => {
   }
   return json
 }
-let pageoffset = '';
+let pageoffset = ''
 const getImage = async (protocol, data) => {
   if (protocol.categoryparam) {
     // category param
     data[protocol.categoryparam] = data.category
   }
-  if(data.searchKey) {
+  if (data.searchKey) {
     // alias
     data.keyword = data.searchKey
   }
-  if(data.page == 0 && protocol.pageoffset) {
-    pageoffset = '';
+  if (data.page === 0 && protocol.pageoffset) {
+    pageoffset = ''
   }
-  console.log(protocol.search, data.searchKey, protocol.searchurl, data, formatUrl(protocol.pageurl, data))
-  let url = protocol.search && data.keyword ? formatUrl(protocol.searchurl, data) : formatUrl(protocol.pageurl, data);
-  let option = {};
-  if(protocol.useragent) {
+  const url =
+    protocol.search && data.keyword
+      ? formatUrl(protocol.searchurl, data)
+      : formatUrl(protocol.pageurl, data)
+  const option = {}
+  if (protocol.useragent) {
     option.headers = {
       agent: protocol.useragent,
-      ... option.headers
+      ...option.headers
     }
   }
-  if(protocol.pagemethod) {
+  if (protocol.pagemethod) {
     option.method = protocol.pagemethod
   }
-  if(protocol.headers) {
+  if (protocol.headers) {
     option.headers = {
-      ... option.headers,
+      ...option.headers,
       ...protocol.headers
     }
   }
@@ -124,7 +128,12 @@ const getImage = async (protocol, data) => {
   let urls = []
   if (protocol.type === 'json') {
     result = await res.json()
-    const images = jsonDeep(result, (data.keyword && protocol.searchmatch) ? protocol.searchmatch : protocol.pagematch)
+    const images = jsonDeep(
+      result,
+      data.keyword && protocol.searchmatch
+        ? protocol.searchmatch
+        : protocol.pagematch
+    )
     if (images && images.length) {
       urls = [].slice.call(images, 0).map(item => ({
         url: parseJsonChild(item, protocol.pageitem.url),
@@ -137,7 +146,11 @@ const getImage = async (protocol, data) => {
     result = await res.text()
     // console.log(result)
     const $ = cheerio.load(result)
-    const images = $((data.keyword && protocol.searchmatch) ? protocol.searchmatch : protocol.pagematch)
+    const images = $(
+      data.keyword && protocol.searchmatch
+        ? protocol.searchmatch
+        : protocol.pagematch
+    )
     if (images && images.length) {
       urls = [].slice.call(images, 0).map(item => ({
         url: parseHtmlChild($(item), protocol.pageitem.url),
@@ -145,20 +158,19 @@ const getImage = async (protocol, data) => {
         width: parseHtmlChild($(item), protocol.pageitem.width),
         height: parseHtmlChild($(item), protocol.pageitem.height)
       }))
-      if(protocol.pageoffsetmatch) {
-        let pageo = $(protocol.pageoffsetmatch)[0]
+      if (protocol.pageoffsetmatch) {
+        const pageo = $(protocol.pageoffsetmatch)[0]
         pageoffset = parseHtmlChild($(pageo), protocol.pageoffset)
       }
     } else {
       console.log(result)
     }
-
   }
   return urls
 }
 
 const getCategory2 = async (protocol, data) => {
-  if(protocol.categorydata) {
+  if (protocol.categorydata) {
     return protocol.categorydata
   }
   const res = await fetch(formatUrl(protocol.categoryurl, data))

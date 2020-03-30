@@ -8,7 +8,7 @@
 const AutoLaunch = require('auto-launch')
 
 const minecraftAutoLauncher = new AutoLaunch({
-  name: 'Strawberry Wallpaper'
+  name: 'Mangosteen Wallpaper'
 })
 
 export const openAutoStart = function() {

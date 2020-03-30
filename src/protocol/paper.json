@@ -12,7 +12,6 @@
         "id": "_id",
         "name": "langs['zh-Hant']"
      },
-    "categoryparam": "cid",
     "pageurl": "https://service.paper.meiyuan.in/api/v2/columns/flow/{category}?page={{page+1}}&per_page=20",
     "pagematch": "",
     "pageitem": {

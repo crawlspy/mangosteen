@@ -7,7 +7,7 @@
     <div class="header">
       <el-row class="header-row-one">
         <div class="left">
-          <h1 class="text">Strawberry</h1>
+          <h1 class="text">Mangosteen</h1>
         </div>
         <div class="right">
           <i
@@ -314,13 +314,13 @@ export default {
         }
 
         // 2小时 统计日活
-        if (nowDate - statisticTimeFlag >= 2 * 60 * 60) {
-          apiStatisticActive({
-            uid: this.$localStorage.getStore('osInfoUid'),
-            version
-          })
-          this.$localStorage.setStore('statisticTimeFlag', nowDate)
-        }
+        // if (nowDate - statisticTimeFlag >= 2 * 60 * 60) {
+        //   apiStatisticActive({
+        //     uid: this.$localStorage.getStore('osInfoUid'),
+        //     version
+        //   })
+        //   this.$localStorage.setStore('statisticTimeFlag', nowDate)
+        // }
         // 7天 自动清除已下载
         if (nowDate - timingWipeDataFlag >= 7 * 24 * 60 * 60) {
           this.$localStorage.setStore('timingWipeDataFlag', nowDate)
@@ -420,34 +420,34 @@ export default {
           })
         })
       }
-      if (
-        this.$localStorage.getStore('first_install_flag_v1.1.1') !==
-        'strawberrywallpaper'
-      ) {
-        Promise.all([
-          osu.osCmd.whoami(),
-          osu.os.oos(),
-          osu.os.arch(),
-          getMacAddress()
-        ]).then(result => {
-          const [userName, oss, arch, mac] = result
-          const time = new Date().getTime()
-          const data = {
-            username: userName.replace('\n', '').replace('\r', ''), // 用户名
-            version, // 软件版本
-            uid: md5(`${userName}${oss}${arch}${mac}`) // 软件唯一ID,
-          }
-          postRegister(data).then(res => {
-            this.changeOsInfoStore(data)
-            this.$localStorage.setStore('osInfo', data)
-            this.$localStorage.setStore('osInfoUid', data.uid)
-            this.$localStorage.setStore(
-              'first_install_flag_v1.1.1',
-              'strawberrywallpaper'
-            )
-          })
-        })
-      }
+      // if (
+      //   this.$localStorage.getStore('first_install_flag_v1.1.1') !==
+      //   'strawberrywallpaper'
+      // ) {
+      //   Promise.all([
+      //     osu.osCmd.whoami(),
+      //     osu.os.oos(),
+      //     osu.os.arch(),
+      //     getMacAddress()
+      //   ]).then(result => {
+      //     const [userName, oss, arch, mac] = result
+      //     const time = new Date().getTime()
+      //     const data = {
+      //       username: userName.replace('\n', '').replace('\r', ''), // 用户名
+      //       version, // 软件版本
+      //       uid: md5(`${userName}${oss}${arch}${mac}`) // 软件唯一ID,
+      //     }
+      //     postRegister(data).then(res => {
+      //       this.changeOsInfoStore(data)
+      //       this.$localStorage.setStore('osInfo', data)
+      //       this.$localStorage.setStore('osInfoUid', data.uid)
+      //       this.$localStorage.setStore(
+      //         'first_install_flag_v1.1.1',
+      //         'strawberrywallpaper'
+      //       )
+      //     })
+      //   })
+      // }
     },
 
     /**
