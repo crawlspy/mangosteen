@@ -210,7 +210,7 @@ export default {
       categoryList: [], // 类型列表
       category: 0, // 当前分类
       osType, // 系统类型
-      imageSource: 'bing', // 图片来源
+      imageSource: 'pexels', // 图片来源
       currentImageBacColor: '#ddd', // 进度条的颜色
       infoShow: INFOSHOW.loading, // 相关提示信息
       paperClass: [] // paper的分类
@@ -228,7 +228,7 @@ export default {
     // 安装量的统计
     this.firstInstall()
     this.imageSource =
-      this.$localStorage.getStore('userConfig').imageSource || 'bing'
+      this.$localStorage.getStore('userConfig').imageSource || 'pexels'
     this.searchKey = this.$localStorage.getStore('searchKey') || ''
     this.searchKeyList =
       this.$localStorage.getStore('searchKeyList') || DEFAULTSEARCHLIST

@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       version1: version,
-      imageSource: 'bing',
+      imageSource: 'pexels',
       updataTime: '3600',
       isOpenStatr: false, // 开机启动
       wallpaperAutoUp: false, // 壁纸自动更新
