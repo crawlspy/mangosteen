@@ -1,7 +1,7 @@
 'use strict'
 
 process.env.BABEL_ENV = 'main'
-
+const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path')
 const { dependencies } = require('../package.json')
 const webpack = require('webpack')
@@ -64,7 +64,10 @@ if (process.env.NODE_ENV === 'production') {
   mainConfig.plugins.push(
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
-    })
+    }),
+    new CopyPlugin([
+      { from: path.join(__dirname, '../src/protocol'), to: 'protocol/', }
+    ]),
   )
 }
 

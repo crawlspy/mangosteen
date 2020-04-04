@@ -1,10 +1,20 @@
+/* eslint-disable no-undef */
 const elog = require('electron-log')
 const fs = require('fs')
 const path = require('path')
+const { app } = require('electron')
+
+let apppath
+if (process.env.NODE_ENV === 'development') {
+  apppath = path.resolve(__dirname, '..')
+} else {
+  apppath = __dirname
+}
 
 const modulesFiles = {}
-fs.readdirSync(path.resolve(__dirname, '../protocol')).forEach(file => {
-  let model = fs.readFileSync(path.join(__dirname, '../protocol', file))
+fs.readdirSync(path.join(apppath, './protocol')).forEach(file => {
+  // eslint-disable-next-line no-undef
+  let model = fs.readFileSync(path.join(apppath, './protocol', file))
   model = JSON.parse(model)
   modulesFiles[model.value] = model
 })
