@@ -116,7 +116,7 @@ const getImage = async (protocol, data) => {
   }
   if (protocol.useragent) {
     option.headers = {
-      agent: protocol.useragent,
+      'User-Agent': protocol.useragent,
       ...option.headers
     }
   }
