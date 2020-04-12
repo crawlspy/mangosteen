@@ -1,7 +1,7 @@
 {
   "name": "mangosteenwallpaper",
-  "version": "v2.4.2",
-  "author": "taoacat，流浪记，Terry",
+  "version": "v2.4.3",
+  "author": "Terry",
   "description": "a wallpaper app by electron",
   "license": "",
   "main": "./dist/electron/main.js",
