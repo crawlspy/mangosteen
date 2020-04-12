@@ -1,9 +1,12 @@
 /* eslint-disable no-new-func */
-import fetch from 'electron-fetch'
+import fetch from '@w3cub/electron-fetch'
+import AbortController from 'abort-controller'
 import cheerio from 'cheerio'
 import { apiTranslation } from '../api/api'
 import { imageSourceType, protocols } from '../utils/utils'
 import { parseFilters } from './filter-parser'
+
+let controller
 
 const formatUrl = function(url, data) {
   const replaceFn = function(str, key) {
@@ -107,7 +110,10 @@ const getImage = async (protocol, data) => {
     protocol.search && data.keyword
       ? formatUrl(protocol.searchurl, data)
       : formatUrl(protocol.pageurl, data)
-  const option = {}
+  controller = new AbortController()
+  const option = {
+    signal: controller.signal
+  }
   if (protocol.useragent) {
     option.headers = {
       agent: protocol.useragent,
@@ -226,7 +232,7 @@ export const getUrls = function(data) {
 }
 
 export const cancelUrls = function() {
-  // if (type !== '') {
-  //   cancelFn[type]()
-  // }
+  if (controller) {
+    controller.abort()
+  }
 }

@@ -79,7 +79,7 @@
     "del": "^5.1.0",
     "devtron": "^1.4.0",
     "drop-console-webpack-plugin": "^3.0.2",
-    "electron": "^6.0.12",
+    "electron": "^8.2.1",
     "electron-builder": "^21.2.0",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^2.2.4",
@@ -115,10 +115,11 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "dependencies": {
+    "@w3cub/electron-fetch": "^3.0.1",
+    "abort-controller": "^3.0.0",
     "auto-launch": "^5.0.5",
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
-    "electron-fetch": "^1.3.0",
     "electron-log": "^3.0.8",
     "electron-updater": "^4.1.2",
     "element-ui": "^2.13.0",

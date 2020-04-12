@@ -1,4 +1,4 @@
-import fetch from 'electron-fetch'
+import fetch from '@w3cub/electron-fetch'
 import userConfig from '../../.user-config.js'
 
 const { feedbackAPI } = userConfig
@@ -16,7 +16,7 @@ export function newEmail(data, telUser, appInfo) {
     const mailOptions = {
       // from: 'strawberrypaper@163.com', // 发件人地址
       // to: 'strawberrypaper@163.com', // 收件人地址
-      subject: `【${appInfo.emailType}:草莓壁纸】[${appInfo.version}]${telUser}`, // 主题
+      subject: `【${appInfo.emailType}:山竹壁纸】[${appInfo.version}]${telUser}`, // 主题
       text: '',
       html: (() => {
         let html = ''
