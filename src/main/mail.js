@@ -1,4 +1,4 @@
-import fetch from '@w3cub/electron-fetch'
+import fetch from '../get-image/fetch'
 import userConfig from '../../.user-config.js'
 
 const { feedbackAPI } = userConfig

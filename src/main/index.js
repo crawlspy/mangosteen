@@ -327,7 +327,6 @@ function ipcMainInit() {
   // eslint-disable-next-line no-unused-vars
   ipcMain.on('cancelAllRequest', (event, data) => {
     cancelDownloadPic()
-    cancelUrls()
   })
 
   ipcMain.on('dataWallpaper', (event, arg) => {

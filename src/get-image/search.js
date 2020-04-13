@@ -1,12 +1,9 @@
 /* eslint-disable no-new-func */
-import fetch from '@w3cub/electron-fetch'
-import AbortController from 'abort-controller'
 import cheerio from 'cheerio'
+import fetch from './fetch'
 import { apiTranslation } from '../api/api'
 import { imageSourceType, protocols } from '../utils/utils'
 import { parseFilters } from './filter-parser'
-
-let controller
 
 const formatUrl = function(url, data) {
   const replaceFn = function(str, key) {
@@ -94,6 +91,7 @@ const jsonDeep = (s, target) => {
   return json
 }
 let pageoffset = ''
+let req
 const getImage = async (protocol, data) => {
   if (protocol.categoryparam) {
     // category param
@@ -110,10 +108,7 @@ const getImage = async (protocol, data) => {
     protocol.search && data.keyword
       ? formatUrl(protocol.searchurl, data)
       : formatUrl(protocol.pageurl, data)
-  controller = new AbortController()
-  const option = {
-    signal: controller.signal
-  }
+  const option = {}
   if (protocol.useragent) {
     option.headers = {
       'User-Agent': protocol.useragent,
@@ -231,8 +226,4 @@ export const getUrls = function(data) {
   })
 }
 
-export const cancelUrls = function() {
-  if (controller) {
-    controller.abort()
-  }
-}
+export const cancelUrls = function() {}
