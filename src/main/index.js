@@ -108,8 +108,8 @@ function createWindow() {
     titleBarStyle: 'customButtonsOnHover'
   })
 
-  // mainWindow.webContents.openDevTools()
-  // mainWindow.openDevTools()
+  mainWindow.webContents.openDevTools()
+  mainWindow.openDevTools()
   mainWindow.loadURL(baseUrl)
 
   mainWindow.on('blur', () => {
@@ -314,6 +314,33 @@ function mainWindowHide() {
     opacity = parseFloat((opacity - 0.1).toFixed(1))
   }, 30)
 }
+const configURL = `${baseUrl}#/config`
+let configWindow
+const openConfigWindow = () => {
+  configWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minWidth: 300,
+    minHeight: 300,
+    // icon: './src/assets/logo.png',
+    resizable: false,
+    // frame: false,
+    // parent: mainWindow,
+    modal: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+
+  configWindow.webContents.openDevTools()
+  configWindow.openDevTools()
+
+  configWindow.loadURL(configURL)
+
+  configWindow.on('closed', () => {
+    configWindow = null
+  })
+}
 
 function ipcMainInit() {
   /** * 主进程传一个字符串给渲染进程，渲染进程在传递事件给主进程 用于主进程中的一些函数回调 */
@@ -327,6 +354,14 @@ function ipcMainInit() {
   // eslint-disable-next-line no-unused-vars
   ipcMain.on('cancelAllRequest', (event, data) => {
     cancelDownloadPic()
+  })
+
+  ipcMain.on('openConfig', (event, data) => {
+    openConfigWindow()
+  })
+
+  ipcMain.on('imageSourceChange', (event, data) => {
+    mainWindow.webContents.send('imageSourceChanger', data)
   })
 
   ipcMain.on('dataWallpaper', (event, arg) => {

@@ -81,11 +81,6 @@
             </template>
           </el-radio-group>
         </div>
-
-        <div class="setter-last-btn">
-          <div class="about-pro" @click="suggestion">意见反馈</div>
-          <div class="about-pro" @click="aboutPro">关于项目</div>
-        </div>
       </div>
     </div>
   </el-collapse-transition>
@@ -161,23 +156,6 @@ export default {
         data: ''
       })
     },
-
-    /**
-     * 关于项目
-     */
-    aboutPro() {
-      this.$emit('update:show', false)
-      this.$router.push('/about')
-    },
-
-    /**
-     * 意见反馈
-     */
-    suggestion() {
-      this.$emit('update:show', false)
-      this.$router.push('/suggestion')
-    },
-
     /** *将配置信息存到localstorage中 */
     setLocation() {
       const data = {
@@ -253,12 +231,9 @@ export default {
 
 <style lang="less" scoped>
 .setter {
-  width: 100%;
+  display: flex;
   min-height: 270px;
   height: auto;
-  position: absolute;
-  z-index: 4000;
-
   .setter-row {
     display: flex;
     width: 100%;
@@ -295,12 +270,8 @@ export default {
   }
 
   .setter-content {
-    background-color: rgba(43, 42, 42, 0.9);
     width: 100%;
     height: auto;
-    position: absolute;
-    right: 0px;
-    top: 0px;
     padding: 20px;
     padding-bottom: 0px;
     color: #fff;

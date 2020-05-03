@@ -75,14 +75,6 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     z-index:99997 !important;
 }
 
-.page-transition-enter-active,.page-transition-leave-active{
-    transform: translateX(0);
-    transition: transform .3s;
-}
-.page-transition-enter, .page-transition-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    transform: translateX(100%);
-    transition: transform .3s;
-}
 
 
 

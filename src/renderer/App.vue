@@ -1,7 +1,10 @@
 <template>
-  <div class="sw-main" id="app">
+  <div class="sw-main" :class="clazz" id="app">
     <!-- mac下显示三角 -->
-    <div class="sanjiao" v-if="osType === 'mac'"></div>
+    <div
+      class="sanjiao"
+      v-if="osType === 'mac' && !~$route.path.indexOf('/config')"
+    ></div>
     <div
       :class="[
         'sw-main-content',
@@ -23,6 +26,15 @@ export default {
   data() {
     return {
       osType
+    }
+  },
+  computed: {
+    clazz() {
+      // eslint-disable-next-line no-bitwise
+      const zz = ~this.$route.path.indexOf('/config')
+      return {
+        'is-config': zz
+      }
     }
   },
   mounted() {
@@ -81,6 +93,15 @@ export default {
 
   &.sw-main-content-mac {
     height: calc(100% - 10px);
+  }
+}
+
+.is-config .sw-main-content {
+  border-radius: 0px;
+  overflow: hidden;
+  transform: rotate(0deg);
+  &.sw-main-content-mac {
+    height: 100%;
   }
 }
 </style>

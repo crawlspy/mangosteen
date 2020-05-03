@@ -1,6 +1,5 @@
 <template>
   <div class="page-header">
-    <i class="iconfont icon-back" @click="handleClick"></i>
     <div class="title-text"><slot></slot></div>
   </div>
 </template>
@@ -8,9 +7,6 @@
 export default {
   name: 'mlPageHeader',
   methods: {
-    handleClick() {
-      this.$router.replace('/')
-    }
   }
 }
 </script>

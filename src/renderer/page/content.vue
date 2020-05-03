@@ -15,10 +15,7 @@
             @click.stop="openDownloadFile"
           ></i>
           <div class="header-set">
-            <i
-              class="iconfont icon-shezhi"
-              @click.stop="setterShow = !setterShow"
-            ></i>
+            <i class="iconfont icon-shezhi" @click.stop="openConfig"></i>
           </div>
         </div>
       </el-row>
@@ -144,6 +141,9 @@
     <div class="refresh-btn" :class="{ 'refresh-btn-ing': refreshBtnIng }">
       <i class="iconfont icon-shuaxin" @click="refreshFn"></i>
     </div>
+    <div @click.stop="quit" class="exit-btn about-pro">
+      <i class="iconfont icon-tuichu"></i>
+    </div>
 
     <setter
       :class="['setter-content', osType == 'mac' ? 'setter-content-mac' : '']"
@@ -261,6 +261,9 @@ export default {
         await this.getData()
       }
     },
+    openConfig() {
+      this.$ipcRenderer.send('openConfig', true) // 打开配置
+    },
 
     /**
      * 清除因版本更新后不再使用字段
@@ -275,6 +278,10 @@ export default {
      * @function eventInit
      */
     eventInit() {
+      // 配置更新
+      this.$ipcRenderer.on('imageSourceChanger', (event, arg) => {
+        this.imageSourceChange(arg)
+      })
       /**
        * 设置壁纸完成事件
        */
@@ -510,7 +517,12 @@ export default {
     imageDirection(width, height) {
       return !(width >= height)
     },
-
+    quit() {
+      this.$ipcRenderer.send('btn', {
+        type: 'quit',
+        data: ''
+      })
+    },
     /**
      * 刷新
      * @function refreshFn
@@ -974,6 +986,18 @@ export default {
   position: fixed;
   z-index: 999;
   left: 14px;
+  bottom: 8px;
+  color: #ddd;
+
+  .iconfont {
+    font-size: 24px;
+  }
+}
+
+.exit-btn {
+  position: fixed;
+  z-index: 999;
+  right: 14px;
   bottom: 8px;
   color: #ddd;
 
